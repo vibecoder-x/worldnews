@@ -1,0 +1,14 @@
+{
+  "permissions": {
+    "allow": [
+      "Read(//c/Users/hp/portfolio/**)",
+      "Bash(dir)",
+      "Bash(dir /b)",
+      "Bash(dir worldnews)",
+      "Bash(node server.js)",
+      "Bash(git add .)"
+    ],
+    "deny": [],
+    "ask": []
+  }
+}

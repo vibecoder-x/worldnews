@@ -1,0 +1,92 @@
+Create a professional, modern news website for "worldnews.day" with the following specifications:
+
+**DESIGN REQUIREMENTS:**
+- Color scheme: Professional red (#DC2626) and blue (#2563EB) theme
+- Clean, newspaper-style layout with modern web design
+- Responsive design (mobile/tablet/desktop optimized)
+- Dark mode toggle option
+- Fast loading times and SEO optimized
+
+**MULTI-LANGUAGE SUPPORT:**
+- Support 6 languages: English, Spanish, French, German, Arabic, Chinese
+- Language switcher dropdown in header
+- Automatic browser language detection
+- RTL (Right-to-left) support for Arabic
+- Translated navigation menus and UI elements
+- Language-specific URL structure (e.g., /en/, /es/, /fr/)
+
+**CONTENT INTEGRATION - RSS FEEDS:**
+Aggregate real-time news from these high-quality RSS feeds:
+
+**ENGLISH FEEDS:**
+- BBC World News: http://feeds.bbci.co.uk/news/world/rss.xml
+- CNN International: http://rss.cnn.com/rss/edition.rss
+- Reuters Top News: https://www.reutersagency.com/feed/?best-topics=top-news
+- Al Jazeera English: https://www.aljazeera.com/xml/rss/all.xml
+- AP Top News: https://apnews.com/apf-topnews.rss
+- BBC Business: http://feeds.bbci.co.uk/news/business/rss.xml
+- TechCrunch: https://techcrunch.com/feed/
+- The Verge: https://www.theverge.com/rss/index.xml
+
+**SPANISH FEEDS:**
+- BBC Mundo: https://feeds.bbci.co.uk/mundo/rss.xml
+- CNN Español: https://cnnespanol.cnn.com/feed/
+- El País: https://feeds.elpais.com/mrss-s/pages/ep/site/elpais.com/section/internacional/portada
+
+**FRENCH FEEDS:**
+- BBC Afrique: https://feeds.bbci.co.uk/afrique/rss.xml
+- France 24: https://www.france24.com/en/rss
+- Le Monde: https://www.lemonde.fr/en/rss/une.xml
+
+**GERMAN FEEDS:**
+- Deutsche Welle: https://rss.dw.com/xml/rss-de-all
+- Der Spiegel: https://www.spiegel.de/international/index.rss
+
+**ARABIC FEEDS:**
+- Al Jazeera Arabic: https://www.aljazeera.com/xml/rss/all.xml
+- BBC Arabic: https://www.bbc.com/arabic/index.xml
+
+**CHINESE FEEDS:**
+- Xinhua News: http://www.xinhuanet.com/english/rss/worldrss.xml
+- China Daily: https://www.chinadaily.com.cn/rss/world_rss.xml
+
+**FUNCTIONALITY:**
+- Auto-refresh content every 30 minutes
+- Search bar for news topics (with language filtering)
+- Newsletter signup integration (multi-language options)
+- Social sharing buttons (Twitter, Facebook, LinkedIn, WeChat, WhatsApp)
+- Infinite scroll or pagination
+- Featured articles carousel/slider
+- Language-specific trending news sections
+- Display featured images with each article
+- Show source attribution and publication timestamps
+- Category sections: World, Politics, Business, Technology, Health (localized)
+
+**MONETIZATION:**
+- Google AdSense integration (I will provide ad codes)
+- Ad placements:
+  * Header leaderboard (728x90)
+  * Sidebar rectangles (300x250)
+  * In-content ads
+  * Footer ads
+- Non-intrusive ad positioning
+- Language-specific ad targeting
+
+**TECHNICAL SPECIFICATIONS:**
+- Built with HTML5, CSS3, JavaScript
+- Mobile-first responsive design
+- Fast loading optimized images
+- SEO-friendly URLs and meta tags (hreflang for languages)
+- Analytics integration ready (Google Analytics with language tracking)
+- Translation-ready strings (i18n support)
+
+**ADDITIONAL FEATURES:**
+- Newsletter subscription form (multi-language)
+- Trending news section (per language)
+- Breaking news alert banner (localized)
+- Related articles suggestions
+- Print-friendly article views
+- Reading time estimates
+- Font size adjustment for accessibility
+
+Please generate complete HTML/CSS/JavaScript files ready for deployment. Include language JSON files structure for easy translation management. The design should be professional, trustworthy, and engaging for international news readers with proper RSS feed integration.

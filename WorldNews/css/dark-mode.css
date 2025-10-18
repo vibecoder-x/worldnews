@@ -1,0 +1,222 @@
+/* ===========================
+   DARK MODE STYLES
+   =========================== */
+
+body.dark-mode {
+    --white: #111827;
+    --black: #FFFFFF;
+    --gray-50: #1F2937;
+    --gray-100: #374151;
+    --gray-200: #4B5563;
+    --gray-300: #6B7280;
+    --gray-400: #9CA3AF;
+    --gray-500: #D1D5DB;
+    --gray-600: #E5E7EB;
+    --gray-700: #F3F4F6;
+    --gray-800: #F9FAFB;
+    --gray-900: #FFFFFF;
+
+    background-color: #0F172A;
+    color: var(--gray-800);
+}
+
+body.dark-mode .header {
+    background: #1E293B;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.3);
+}
+
+body.dark-mode .header-top {
+    border-bottom-color: #374151;
+}
+
+body.dark-mode .lang-btn {
+    background: #374151;
+    border-color: #4B5563;
+    color: var(--gray-800);
+}
+
+body.dark-mode .lang-btn:hover {
+    background: #4B5563;
+}
+
+body.dark-mode .lang-dropdown {
+    background: #1E293B;
+    border-color: #374151;
+}
+
+body.dark-mode .lang-dropdown a {
+    color: var(--gray-700);
+}
+
+body.dark-mode .lang-dropdown a:hover {
+    background: #374151;
+}
+
+body.dark-mode .font-size-controls button {
+    background: #374151;
+    border-color: #4B5563;
+    color: var(--gray-800);
+}
+
+body.dark-mode .dark-mode-toggle {
+    background: #FCD34D;
+    color: #1F2937;
+}
+
+body.dark-mode .dark-mode-toggle:hover {
+    background: #FBBF24;
+}
+
+body.dark-mode .dark-mode-toggle i::before {
+    content: "\f185"; /* Sun icon */
+}
+
+body.dark-mode .main-nav a {
+    color: var(--gray-700);
+}
+
+body.dark-mode .main-nav a:hover,
+body.dark-mode .main-nav a.active {
+    color: var(--primary-blue);
+}
+
+body.dark-mode .search-container input {
+    background: #374151;
+    border-color: #4B5563;
+    color: var(--gray-800);
+}
+
+body.dark-mode .search-container input::placeholder {
+    color: var(--gray-400);
+}
+
+body.dark-mode .ad-container {
+    background: #1E293B;
+    border: 1px solid #374151;
+}
+
+body.dark-mode .featured-section h2,
+body.dark-mode .section-header h2 {
+    color: var(--gray-900);
+}
+
+body.dark-mode .featured-article,
+body.dark-mode .article-card,
+body.dark-mode .sidebar section {
+    background: #1E293B;
+    border: 1px solid #374151;
+}
+
+body.dark-mode .article-card h3,
+body.dark-mode .featured-article h3 {
+    color: var(--gray-900);
+}
+
+body.dark-mode .article-card p,
+body.dark-mode .featured-article p {
+    color: var(--gray-600);
+}
+
+body.dark-mode .article-meta,
+body.dark-mode .article-time,
+body.dark-mode .read-time {
+    color: var(--gray-500);
+}
+
+body.dark-mode .article-footer {
+    border-top-color: #374151;
+}
+
+body.dark-mode .view-btn {
+    background: #374151;
+    border-color: #4B5563;
+    color: var(--gray-800);
+}
+
+body.dark-mode .view-btn:hover,
+body.dark-mode .view-btn.active {
+    background: var(--primary-blue);
+    color: var(--white);
+}
+
+body.dark-mode .carousel-btn {
+    background: rgba(30, 41, 59, 0.95);
+    border-color: #374151;
+    color: var(--gray-800);
+}
+
+body.dark-mode .carousel-btn:hover {
+    background: #1E293B;
+}
+
+body.dark-mode .trending-item:hover {
+    background: #374151;
+}
+
+body.dark-mode .trending-item h4 {
+    color: var(--gray-800);
+}
+
+body.dark-mode .newsletter-section input {
+    background: #374151;
+    border-color: #4B5563;
+    color: var(--gray-800);
+}
+
+body.dark-mode .newsletter-section input::placeholder {
+    color: var(--gray-400);
+}
+
+body.dark-mode .categories-list a {
+    color: var(--gray-700);
+}
+
+body.dark-mode .categories-list a:hover {
+    background: rgba(37, 99, 235, 0.2);
+}
+
+body.dark-mode .sidebar h3 {
+    border-bottom-color: #374151;
+}
+
+body.dark-mode .footer {
+    background: #0F172A;
+    border-top: 1px solid #374151;
+}
+
+body.dark-mode .footer-bottom {
+    border-top-color: #1E293B;
+}
+
+body.dark-mode .modal-content {
+    background: #1E293B;
+    color: var(--gray-800);
+}
+
+body.dark-mode .modal-close {
+    background: #374151;
+    color: var(--gray-800);
+}
+
+body.dark-mode .modal-close:hover {
+    background: #4B5563;
+}
+
+body.dark-mode .spinner {
+    border-color: #374151;
+    border-top-color: var(--primary-blue);
+}
+
+/* Smooth transition for dark mode */
+body {
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.header,
+.featured-article,
+.article-card,
+.sidebar section,
+.lang-dropdown,
+.carousel-btn {
+    transition: background-color 0.3s ease, border-color 0.3s ease;
+}

@@ -1,0 +1,342 @@
+/* ===========================
+   RESPONSIVE STYLES
+   Mobile-First Design
+   =========================== */
+
+/* Tablet - 768px and below */
+@media (max-width: 768px) {
+    /* Header */
+    .header-top {
+        flex-direction: column;
+        gap: var(--spacing-md);
+        align-items: center;
+    }
+
+    .logo h1 {
+        font-size: 1.5rem;
+    }
+
+    .header-controls {
+        width: 100%;
+        justify-content: center;
+    }
+
+    /* Navigation */
+    .main-nav ul {
+        display: none;
+        flex-direction: column;
+        width: 100%;
+        gap: 0;
+    }
+
+    .main-nav ul.mobile-active {
+        display: flex;
+    }
+
+    .main-nav li {
+        width: 100%;
+    }
+
+    .main-nav a {
+        display: block;
+        padding: var(--spacing-md);
+        border-bottom: 1px solid var(--gray-200);
+    }
+
+    .mobile-menu-toggle {
+        display: block;
+        position: absolute;
+        right: var(--spacing-md);
+        top: var(--spacing-md);
+    }
+
+    /* Main Grid */
+    .main-grid {
+        grid-template-columns: 1fr;
+    }
+
+    /* Sidebar */
+    .sidebar {
+        position: static;
+        order: 2;
+    }
+
+    /* Articles Grid */
+    .articles-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .articles-grid.list-view .article-card {
+        grid-template-columns: 1fr;
+    }
+
+    .articles-grid.list-view .article-card img {
+        height: 200px;
+    }
+
+    /* Carousel */
+    .featured-article {
+        flex: 0 0 300px;
+    }
+
+    .featured-article img {
+        height: 200px;
+    }
+
+    .carousel-btn {
+        display: none;
+    }
+
+    /* Footer */
+    .footer-content {
+        grid-template-columns: 1fr;
+    }
+
+    /* Search */
+    .search-container {
+        flex-direction: column;
+    }
+
+    .search-container button {
+        width: 100%;
+    }
+
+    /* Modal */
+    .modal-content {
+        margin: var(--spacing-md);
+        padding: var(--spacing-lg);
+    }
+
+    /* Featured Section */
+    .featured-section h2 {
+        font-size: 1.5rem;
+    }
+
+    .section-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: var(--spacing-md);
+    }
+}
+
+/* Mobile - 480px and below */
+@media (max-width: 480px) {
+    /* Typography adjustments */
+    :root {
+        --font-size-base: 14px;
+    }
+
+    .logo h1 {
+        font-size: 1.25rem;
+    }
+
+    .featured-section h2,
+    .section-header h2 {
+        font-size: 1.25rem;
+    }
+
+    .sidebar h3 {
+        font-size: 1.1rem;
+    }
+
+    /* Spacing adjustments */
+    .container {
+        padding: 0 var(--spacing-sm);
+    }
+
+    .main-content {
+        padding: var(--spacing-lg) 0;
+    }
+
+    /* Header controls */
+    .header-controls {
+        flex-wrap: wrap;
+        gap: var(--spacing-sm);
+    }
+
+    .font-size-controls {
+        order: 3;
+        width: 100%;
+        justify-content: center;
+    }
+
+    /* Featured carousel */
+    .featured-article {
+        flex: 0 0 280px;
+    }
+
+    /* Article cards */
+    .article-content {
+        padding: var(--spacing-md);
+    }
+
+    .article-card h3 {
+        font-size: 1rem;
+    }
+
+    .article-footer {
+        flex-direction: column;
+        gap: var(--spacing-sm);
+        align-items: flex-start;
+    }
+
+    /* Trending items */
+    .trending-item {
+        flex-direction: column;
+    }
+
+    /* Newsletter */
+    .newsletter-section input,
+    .newsletter-section button {
+        font-size: 0.875rem;
+    }
+
+    /* Breaking news banner */
+    .breaking-news-banner .container {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .close-banner {
+        position: absolute;
+        right: var(--spacing-sm);
+        top: 50%;
+        transform: translateY(-50%);
+    }
+
+    /* Ad containers */
+    .ad-container {
+        padding: var(--spacing-sm);
+    }
+}
+
+/* Large Desktop - 1440px and above */
+@media (min-width: 1440px) {
+    :root {
+        --container-max-width: 1400px;
+    }
+
+    .featured-article {
+        flex: 0 0 450px;
+    }
+
+    .articles-grid {
+        grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+    }
+}
+
+/* Extra Large Desktop - 1920px and above */
+@media (min-width: 1920px) {
+    :root {
+        --container-max-width: 1600px;
+    }
+
+    .main-grid {
+        grid-template-columns: 1fr 400px;
+    }
+}
+
+/* Print Styles */
+@media print {
+    .header,
+    .main-nav,
+    .search-container,
+    .sidebar,
+    .footer,
+    .ad-container,
+    .share-buttons,
+    .load-more-container,
+    .breaking-news-banner,
+    .carousel-btn,
+    .mobile-menu-toggle,
+    .dark-mode-toggle,
+    .font-size-controls,
+    .language-switcher {
+        display: none !important;
+    }
+
+    body {
+        background: white;
+        color: black;
+    }
+
+    .main-content {
+        padding: 0;
+    }
+
+    .main-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .article-card,
+    .featured-article {
+        page-break-inside: avoid;
+        box-shadow: none;
+        border: 1px solid #ccc;
+        margin-bottom: 1cm;
+    }
+
+    a {
+        text-decoration: underline;
+    }
+
+    a[href^="http"]::after {
+        content: " (" attr(href) ")";
+        font-size: 0.8em;
+    }
+}
+
+/* Reduced Motion */
+@media (prefers-reduced-motion: reduce) {
+    * {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
+
+    .carousel-container {
+        scroll-behavior: auto;
+    }
+
+    html {
+        scroll-behavior: auto;
+    }
+}
+
+/* High Contrast Mode */
+@media (prefers-contrast: high) {
+    :root {
+        --primary-red: #FF0000;
+        --primary-blue: #0000FF;
+        --gray-600: #000000;
+        --gray-800: #000000;
+        --gray-900: #000000;
+    }
+
+    .article-card,
+    .featured-article,
+    .sidebar section {
+        border: 2px solid #000000;
+    }
+
+    body.dark-mode {
+        --gray-900: #FFFFFF;
+        --gray-800: #FFFFFF;
+        --gray-600: #FFFFFF;
+    }
+}
+
+/* Landscape Mobile */
+@media (max-width: 768px) and (orientation: landscape) {
+    .featured-article img {
+        height: 180px;
+    }
+
+    .article-card img {
+        height: 150px;
+    }
+
+    .modal-content {
+        max-height: 80vh;
+    }
+}
