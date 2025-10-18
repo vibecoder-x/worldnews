@@ -13,7 +13,13 @@
       "Bash(git push -u origin main)",
       "Bash(git add GITHUB_SUCCESS.md)",
       "Bash(git commit -m \"Add GitHub success documentation\")",
-      "Bash(git push origin main)"
+      "Bash(git push origin main)",
+      "Bash(git ls-tree -r main --name-only)",
+      "Bash(cat vercel.json)",
+      "Bash(git add -A)",
+      "Bash(git commit -m \"Remove vercel.json to let Vercel auto-detect static site\n\nVercel''s automatic detection may work better than manual configuration.\nThis should fix the 404 error on deployment.\n\n🤖 Generated with [Claude Code](https://claude.com/claude-code)\n\nCo-Authored-By: Claude <noreply@anthropic.com>\")",
+      "Bash(git add vercel.json vercel.json.backup)",
+      "Bash(git commit -m \"Remove vercel.json to let Vercel auto-detect\n\nLet Vercel''s automatic static site detection handle the configuration.\n\n🤖 Generated with [Claude Code](https://claude.com/claude-code)\n\nCo-Authored-By: Claude <noreply@anthropic.com>\")"
     ],
     "deny": [],
     "ask": []
