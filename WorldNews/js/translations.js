@@ -60,6 +60,17 @@ const TRANSLATIONS = {
         copy_link: 'Copy link',
         link_copied: 'Link copied!',
         refreshing_news: 'Refreshing news...',
+
+        // Geolocation
+        nearby_news: 'Nearby News',
+        search_radius: 'Radius',
+        loading_local: 'Detecting location...',
+        location_detected: 'Location detected',
+        location_error: 'Location unavailable',
+        refresh_location: 'Refresh Location',
+        save_location: 'Save Location',
+        saved_locations: 'Saved Locations',
+        no_local_news: 'No local news available',
     },
 
     es: {
