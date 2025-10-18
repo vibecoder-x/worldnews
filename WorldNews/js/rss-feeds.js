@@ -7,15 +7,22 @@ class RSSFeedManager {
     constructor() {
         this.feeds = [];
         this.parser = new DOMParser();
-        this.corsProxy = 'https://api.allorigins.win/raw?url=';
-        // Alternative proxy: 'https://corsproxy.io/?'
     }
 
-    // Fetch and parse RSS feed
+    // Fetch and parse RSS feed (via serverless function)
     async fetchFeed(feedUrl) {
         try {
-            const response = await fetch(this.corsProxy + encodeURIComponent(feedUrl));
+            const params = new URLSearchParams({ url: feedUrl });
+            const response = await fetch(`/api/rss?${params}`);
             const xmlText = await response.text();
+
+            // Check if response is an error JSON
+            if (xmlText.startsWith('{')) {
+                const errorData = JSON.parse(xmlText);
+                console.error('RSS fetch error:', errorData.error);
+                return [];
+            }
+
             const xmlDoc = this.parser.parseFromString(xmlText, 'text/xml');
 
             // Check if it's RSS or Atom

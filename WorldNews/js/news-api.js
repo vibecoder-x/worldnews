@@ -11,30 +11,21 @@ class NewsAPI {
         this.apis = ['newsapi', 'gnews', 'currentsapi'];
     }
 
-    // Fetch news from NewsAPI.org
+    // Fetch news from NewsAPI.org (via serverless function)
     async fetchFromNewsAPI(category = 'general', language = 'en', page = 1, pageSize = 12) {
-        const country = CONFIG.COUNTRY_CODES[language] || 'us';
-        const apiKey = CONFIG.API_KEYS.newsapi;
-
-        let endpoint = `${CONFIG.API_ENDPOINTS.newsapi}/top-headlines`;
         const params = new URLSearchParams({
-            apiKey: apiKey,
-            pageSize: pageSize,
-            page: page,
-            language: language
+            api: 'newsapi',
+            category,
+            language,
+            page,
+            pageSize
         });
 
-        if (category !== 'all') {
-            params.append('category', category);
-        } else {
-            params.append('country', country);
-        }
-
         try {
-            const response = await fetch(`${endpoint}?${params}`);
+            const response = await fetch(`/api/news?${params}`);
             const data = await response.json();
 
-            if (data.status === 'ok') {
+            if (data.status === 'ok' && data.articles) {
                 return this.normalizeNewsAPIData(data.articles);
             } else {
                 throw new Error(data.message || 'NewsAPI error');
@@ -45,24 +36,18 @@ class NewsAPI {
         }
     }
 
-    // Fetch news from GNews
+    // Fetch news from GNews (via serverless function)
     async fetchFromGNews(category = 'general', language = 'en', page = 1, pageSize = 12) {
-        const apiKey = CONFIG.API_KEYS.gnews;
-        const endpoint = `${CONFIG.API_ENDPOINTS.gnews}/top-headlines`;
-
         const params = new URLSearchParams({
-            apikey: apiKey,
-            lang: language,
-            max: pageSize,
-            page: page
+            api: 'gnews',
+            category,
+            language,
+            page,
+            pageSize
         });
 
-        if (category !== 'all' && category !== 'general') {
-            params.append('topic', category);
-        }
-
         try {
-            const response = await fetch(`${endpoint}?${params}`);
+            const response = await fetch(`/api/news?${params}`);
             const data = await response.json();
 
             if (data.articles) {
@@ -76,24 +61,18 @@ class NewsAPI {
         }
     }
 
-    // Fetch news from CurrentsAPI
+    // Fetch news from CurrentsAPI (via serverless function)
     async fetchFromCurrentsAPI(category = 'general', language = 'en', page = 1, pageSize = 12) {
-        const apiKey = CONFIG.API_KEYS.currentsapi;
-        const endpoint = `${CONFIG.API_ENDPOINTS.currentsapi}/latest-news`;
-
         const params = new URLSearchParams({
-            apiKey: apiKey,
-            language: language,
-            page_size: pageSize,
-            page_number: page
+            api: 'currentsapi',
+            category,
+            language,
+            page,
+            pageSize
         });
 
-        if (category !== 'all' && category !== 'general') {
-            params.append('category', category);
-        }
-
         try {
-            const response = await fetch(`${endpoint}?${params}`);
+            const response = await fetch(`/api/news?${params}`);
             const data = await response.json();
 
             if (data.status === 'ok' && data.news) {
@@ -107,7 +86,7 @@ class NewsAPI {
         }
     }
 
-    // Search news across APIs
+    // Search news across APIs (via serverless function)
     async searchNews(query, language = 'en', page = 1, pageSize = 12) {
         const cacheKey = `search_${query}_${language}_${page}`;
 
@@ -116,22 +95,19 @@ class NewsAPI {
         if (cached) return cached;
 
         try {
-            // Try NewsAPI search
-            const apiKey = CONFIG.API_KEYS.newsapi;
-            const endpoint = `${CONFIG.API_ENDPOINTS.newsapi}/everything`;
+            // Try NewsAPI search via serverless function
             const params = new URLSearchParams({
-                apiKey: apiKey,
-                q: query,
-                language: language,
-                pageSize: pageSize,
-                page: page,
-                sortBy: 'publishedAt'
+                api: 'newsapi',
+                query,
+                language,
+                page,
+                pageSize
             });
 
-            const response = await fetch(`${endpoint}?${params}`);
+            const response = await fetch(`/api/news?${params}`);
             const data = await response.json();
 
-            if (data.status === 'ok') {
+            if (data.status === 'ok' && data.articles) {
                 const articles = this.normalizeNewsAPIData(data.articles);
                 this.setCache(cacheKey, articles);
                 return articles;
@@ -142,16 +118,14 @@ class NewsAPI {
 
         // Fallback to GNews search
         try {
-            const apiKey = CONFIG.API_KEYS.gnews;
-            const endpoint = `${CONFIG.API_ENDPOINTS.gnews}/search`;
             const params = new URLSearchParams({
-                apikey: apiKey,
-                q: query,
-                lang: language,
-                max: pageSize
+                api: 'gnews',
+                query,
+                language,
+                pageSize
             });
 
-            const response = await fetch(`${endpoint}?${params}`);
+            const response = await fetch(`/api/news?${params}`);
             const data = await response.json();
 
             if (data.articles) {

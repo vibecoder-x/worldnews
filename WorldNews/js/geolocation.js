@@ -149,23 +149,22 @@ class GeolocationService {
         }
     }
 
-    // Reverse geocoding using OpenStreetMap Nominatim
+    // Reverse geocoding using OpenStreetMap Nominatim (via serverless function)
     async reverseGeocode(lat, lon) {
         try {
-            const url = `https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lon}&zoom=10&addressdetails=1`;
-            const response = await fetch(url, {
-                headers: {
-                    'User-Agent': 'WorldNews.day/1.0'
-                }
+            const params = new URLSearchParams({
+                type: 'reverse',
+                lat,
+                lon
             });
-
+            const response = await fetch(`/api/location?${params}`);
             const data = await response.json();
 
             return {
-                city: data.address.city || data.address.town || data.address.village || 'Unknown',
-                country: data.address.country,
-                countryCode: data.address.country_code?.toUpperCase(),
-                state: data.address.state,
+                city: data.address?.city || data.address?.town || data.address?.village || 'Unknown',
+                country: data.address?.country || 'Unknown',
+                countryCode: data.address?.country_code?.toUpperCase(),
+                state: data.address?.state,
                 timezone: this.getTimezoneFromCoords(lat, lon),
                 formattedAddress: data.display_name
             };
@@ -179,11 +178,11 @@ class GeolocationService {
         }
     }
 
-    // Get IP-based location (fallback)
+    // Get IP-based location (fallback via serverless function)
     async getIPLocation() {
         try {
-            // Using ipapi.co for IP geolocation
-            const response = await fetch('https://ipapi.co/json/');
+            const params = new URLSearchParams({ type: 'ip' });
+            const response = await fetch(`/api/location?${params}`);
             const data = await response.json();
 
             this.ipLocation = {
