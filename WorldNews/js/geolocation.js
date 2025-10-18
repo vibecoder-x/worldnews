@@ -19,7 +19,8 @@ class GeolocationService {
             'FR': 'fr', 'BE': 'fr', 'CH': 'fr', 'LU': 'fr', 'MC': 'fr',
             'DE': 'de', 'AT': 'de', 'LI': 'de',
             'SA': 'ar', 'AE': 'ar', 'EG': 'ar', 'JO': 'ar', 'LB': 'ar', 'MA': 'ar', 'DZ': 'ar',
-            'CN': 'zh', 'TW': 'zh', 'HK': 'zh', 'SG': 'zh'
+            'CN': 'zh', 'TW': 'zh', 'HK': 'zh', 'SG': 'zh',
+            'IN': 'hi'
         };
 
         // Major cities with RSS feeds
@@ -49,6 +50,19 @@ class GeolocationService {
             'DE': {
                 'Berlin': [
                     { name: 'Berliner Zeitung', url: 'https://www.berliner-zeitung.de/feed', lat: 52.5200, lon: 13.4050 }
+                ]
+            },
+            'IN': {
+                'Delhi': [
+                    { name: 'Times of India', url: 'https://timesofindia.indiatimes.com/rssfeedstopstories.cms', lat: 28.6139, lon: 77.2090 },
+                    { name: 'NDTV India', url: 'https://feeds.feedburner.com/ndtvnews-india-news', lat: 28.6139, lon: 77.2090 }
+                ],
+                'Mumbai': [
+                    { name: 'Mumbai Mirror', url: 'https://mumbaimirror.indiatimes.com/rssfeedstopstories.cms', lat: 19.0760, lon: 72.8777 },
+                    { name: 'Indian Express Mumbai', url: 'https://indianexpress.com/section/cities/mumbai/feed/', lat: 19.0760, lon: 72.8777 }
+                ],
+                'Bangalore': [
+                    { name: 'Bangalore Mirror', url: 'https://bangaloremirror.indiatimes.com/rssfeedstopstories.cms', lat: 12.9716, lon: 77.5946 }
                 ]
             }
         };

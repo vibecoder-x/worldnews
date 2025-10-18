@@ -361,6 +361,86 @@ const TRANSLATIONS = {
         copy_link: '复制链接',
         link_copied: '链接已复制！',
         refreshing_news: '正在刷新新闻...',
+
+        // Geolocation
+        nearby_news: '附近的新闻',
+        search_radius: '半径',
+        loading_local: '正在检测位置...',
+        location_detected: '位置已检测',
+        location_error: '位置不可用',
+        refresh_location: '刷新位置',
+        save_location: '保存位置',
+        saved_locations: '已保存的位置',
+        no_local_news: '没有本地新闻',
+    },
+
+    hi: {
+        // नेविगेशन
+        nav_home: 'होम',
+        nav_world: 'विश्व',
+        nav_politics: 'राजनीति',
+        nav_business: 'व्यापार',
+        nav_tech: 'तकनीक',
+        nav_health: 'स्वास्थ्य',
+        nav_sports: 'खेल',
+        nav_entertainment: 'मनोरंजन',
+
+        // UI तत्व
+        breaking: 'ब्रेकिंग',
+        featured_news: 'विशेष समाचार',
+        latest_news: 'ताज़ा खबरें',
+        trending: 'ट्रेंडिंग',
+        categories: 'श्रेणियाँ',
+        search_placeholder: 'समाचार खोजें...',
+        loading: 'समाचार लोड हो रहे हैं...',
+        load_more: 'और लोड करें',
+        read_more: 'और पढ़ें',
+
+        // न्यूज़लेटर
+        newsletter_title: 'अपडेट रहें',
+        newsletter_subtitle: 'अपने इनबॉक्स में नवीनतम समाचार प्राप्त करें',
+        email_placeholder: 'अपना ईमेल दर्ज करें',
+        subscribe: 'सदस्यता लें',
+        privacy_note: 'हम आपकी गोपनीयता का सम्मान करते हैं',
+        subscription_success: 'सदस्यता के लिए धन्यवाद!',
+        subscription_error: 'सदस्यता विफल। कृपया पुनः प्रयास करें।',
+
+        // फ़ुटर
+        footer_about: 'कई भाषाओं में अंतर्राष्ट्रीय समाचार कवरेज के लिए आपका विश्वसनीय स्रोत।',
+        quick_links: 'त्वरित लिंक',
+        about: 'हमारे बारे में',
+        contact: 'संपर्क करें',
+        privacy: 'गोपनीयता नीति',
+        terms: 'सेवा की शर्तें',
+        follow_us: 'हमें फॉलो करें',
+        rights: 'सर्वाधिकार सुरक्षित',
+        disclaimer: 'समाचार सामग्री विभिन्न विश्वसनीय अंतर्राष्ट्रीय स्रोतों से एकत्रित।',
+
+        // समय
+        minutes_ago: 'मिनट पहले',
+        hours_ago: 'घंटे पहले',
+        days_ago: 'दिन पहले',
+        just_now: 'अभी-अभी',
+        min_read: 'मिनट पढ़ें',
+
+        // संदेश
+        no_articles: 'कोई लेख नहीं मिला',
+        error_loading: 'लोड करने में त्रुटि। कृपया पुनः प्रयास करें।',
+        share_article: 'इस लेख को साझा करें',
+        copy_link: 'लिंक कॉपी करें',
+        link_copied: 'लिंक कॉपी हो गया!',
+        refreshing_news: 'समाचार रीफ्रेश हो रहे हैं...',
+
+        // भू-स्थान
+        nearby_news: 'आस-पास की खबरें',
+        search_radius: 'त्रिज्या',
+        loading_local: 'स्थान का पता लगाया जा रहा है...',
+        location_detected: 'स्थान का पता चला',
+        location_error: 'स्थान उपलब्ध नहीं',
+        refresh_location: 'स्थान रीफ्रेश करें',
+        save_location: 'स्थान सहेजें',
+        saved_locations: 'सहेजे गए स्थान',
+        no_local_news: 'कोई स्थानीय समाचार उपलब्ध नहीं',
     }
 };
 

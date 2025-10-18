@@ -46,6 +46,14 @@ const CONFIG = {
         ],
         zh: [
             { name: 'Xinhua News', url: 'http://www.xinhuanet.com/english/rss/worldrss.xml', category: 'world' },
+        ],
+        hi: [
+            { name: 'NDTV India', url: 'https://feeds.feedburner.com/ndtvnews-india-news', category: 'world' },
+            { name: 'Times of India', url: 'https://timesofindia.indiatimes.com/rssfeedstopstories.cms', category: 'world' },
+            { name: 'The Hindu', url: 'https://www.thehindu.com/news/national/feeder/default.rss', category: 'world' },
+            { name: 'India Today', url: 'https://www.indiatoday.in/rss/home', category: 'world' },
+            { name: 'Economic Times', url: 'https://economictimes.indiatimes.com/rssfeedstopstories.cms', category: 'business' },
+            { name: 'Indian Express', url: 'https://indianexpress.com/feed/', category: 'world' },
         ]
     },
 
@@ -79,7 +87,8 @@ const CONFIG = {
         fr: { name: 'Français', code: 'fr', dir: 'ltr' },
         de: { name: 'Deutsch', code: 'de', dir: 'ltr' },
         ar: { name: 'العربية', code: 'ar', dir: 'rtl' },
-        zh: { name: '中文', code: 'zh', dir: 'ltr' }
+        zh: { name: '中文', code: 'zh', dir: 'ltr' },
+        hi: { name: 'हिंदी', code: 'hi', dir: 'ltr' }
     },
 
     // Country Codes for API
@@ -89,7 +98,8 @@ const CONFIG = {
         fr: 'fr',
         de: 'de',
         ar: 'ae',
-        zh: 'cn'
+        zh: 'cn',
+        hi: 'in'
     },
 
     // Social Share URLs
