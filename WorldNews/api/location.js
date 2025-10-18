@@ -11,7 +11,7 @@ module.exports = async (req, res) => {
         return res.status(200).end();
     }
 
-    const { type, lat, lon } = req.query;
+    const { type, lat, lon, query } = req.query;
 
     try {
         if (type === 'reverse') {
@@ -30,6 +30,22 @@ module.exports = async (req, res) => {
             const data = await response.json();
             return res.status(200).json(data);
 
+        } else if (type === 'geocode') {
+            // Forward geocoding - convert city/country to coordinates
+            if (!query) {
+                return res.status(400).json({ error: 'Query parameter required for geocoding' });
+            }
+
+            const url = `https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(query)}&limit=5&addressdetails=1`;
+            const response = await fetch(url, {
+                headers: {
+                    'User-Agent': 'WorldNews.day/1.0'
+                }
+            });
+
+            const data = await response.json();
+            return res.status(200).json(data);
+
         } else if (type === 'ip') {
             // IP-based geolocation
             const response = await fetch('https://ipapi.co/json/');
@@ -37,7 +53,7 @@ module.exports = async (req, res) => {
             return res.status(200).json(data);
 
         } else {
-            return res.status(400).json({ error: 'Invalid type. Use "reverse" or "ip"' });
+            return res.status(400).json({ error: 'Invalid type. Use "reverse", "geocode", or "ip"' });
         }
     } catch (error) {
         console.error('Location API Error:', error);

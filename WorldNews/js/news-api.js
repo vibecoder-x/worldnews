@@ -183,50 +183,56 @@ class NewsAPI {
 
     // Normalize NewsAPI data
     normalizeNewsAPIData(articles) {
-        return articles.map(article => ({
-            id: this.generateId(article.url),
-            title: article.title,
-            description: article.description || article.content || '',
-            content: article.content || article.description || '',
-            url: article.url,
-            image: article.urlToImage || this.getPlaceholderImage(),
-            source: article.source?.name || 'Unknown',
-            author: article.author,
-            publishedAt: new Date(article.publishedAt),
-            category: this.extractCategory(article)
-        }));
+        return articles
+            .filter(article => article.title && article.title !== '[Removed]' && article.url) // Filter out removed articles
+            .map(article => ({
+                id: this.generateId(article.url),
+                title: article.title,
+                description: article.description || article.content || 'No description available',
+                content: article.content || article.description || '',
+                url: article.url,
+                image: this.validateImage(article.urlToImage),
+                source: article.source?.name || 'Unknown',
+                author: article.author || article.source?.name || 'Unknown',
+                publishedAt: new Date(article.publishedAt),
+                category: this.extractCategory(article)
+            }));
     }
 
     // Normalize GNews data
     normalizeGNewsData(articles) {
-        return articles.map(article => ({
-            id: this.generateId(article.url),
-            title: article.title,
-            description: article.description || '',
-            content: article.content || article.description || '',
-            url: article.url,
-            image: article.image || this.getPlaceholderImage(),
-            source: article.source?.name || 'Unknown',
-            author: article.source?.name,
-            publishedAt: new Date(article.publishedAt),
-            category: 'general'
-        }));
+        return articles
+            .filter(article => article.title && article.url)
+            .map(article => ({
+                id: this.generateId(article.url),
+                title: article.title,
+                description: article.description || 'No description available',
+                content: article.content || article.description || '',
+                url: article.url,
+                image: this.validateImage(article.image),
+                source: article.source?.name || 'Unknown',
+                author: article.source?.name || 'Unknown',
+                publishedAt: new Date(article.publishedAt),
+                category: 'general'
+            }));
     }
 
     // Normalize CurrentsAPI data
     normalizeCurrentsAPIData(articles) {
-        return articles.map(article => ({
-            id: article.id || this.generateId(article.url),
-            title: article.title,
-            description: article.description || '',
-            content: article.description || '',
-            url: article.url,
-            image: article.image || this.getPlaceholderImage(),
-            source: article.author || 'Unknown',
-            author: article.author,
-            publishedAt: new Date(article.published),
-            category: article.category?.[0] || 'general'
-        }));
+        return articles
+            .filter(article => article.title && article.url)
+            .map(article => ({
+                id: article.id || this.generateId(article.url),
+                title: article.title,
+                description: article.description || 'No description available',
+                content: article.description || '',
+                url: article.url,
+                image: this.validateImage(article.image),
+                source: article.author || 'Unknown',
+                author: article.author || 'Unknown',
+                publishedAt: new Date(article.published),
+                category: article.category?.[0] || 'general'
+            }));
     }
 
     // Generate unique ID from URL
@@ -240,9 +246,29 @@ class NewsAPI {
         return 'general';
     }
 
+    // Validate and return image URL or placeholder
+    validateImage(imageUrl) {
+        // Check if image URL exists and is valid
+        if (!imageUrl || imageUrl === 'null' || imageUrl === 'undefined') {
+            return this.getPlaceholderImage();
+        }
+
+        // Check if it's a valid URL
+        try {
+            const url = new URL(imageUrl);
+            // Check if it's a proper image URL
+            if (url.protocol !== 'http:' && url.protocol !== 'https:') {
+                return this.getPlaceholderImage();
+            }
+            return imageUrl;
+        } catch (e) {
+            return this.getPlaceholderImage();
+        }
+    }
+
     // Get placeholder image
     getPlaceholderImage() {
-        return 'data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" width="400" height="300"%3E%3Crect fill="%23ddd" width="400" height="300"/%3E%3Ctext fill="%23999" x="50%25" y="50%25" text-anchor="middle" dy=".3em" font-family="sans-serif" font-size="24"%3ENo Image%3C/text%3E%3C/svg%3E';
+        return 'data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" width="400" height="300"%3E%3Cdefs%3E%3ClinearGradient id="grad" x1="0%25" y1="0%25" x2="100%25" y2="100%25"%3E%3Cstop offset="0%25" style="stop-color:%233b82f6;stop-opacity:1" /%3E%3Cstop offset="100%25" style="stop-color:%232563eb;stop-opacity:1" /%3E%3C/linearGradient%3E%3C/defs%3E%3Crect fill="url(%23grad)" width="400" height="300"/%3E%3Ctext fill="white" x="50%25" y="45%25" text-anchor="middle" font-family="Arial,sans-serif" font-size="24" font-weight="bold"%3EWorldNews%3C/text%3E%3Ctext fill="white" x="50%25" y="60%25" text-anchor="middle" font-family="Arial,sans-serif" font-size="16" opacity="0.8"%3EImage Unavailable%3C/text%3E%3C/svg%3E';
     }
 
     // Cache management

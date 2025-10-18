@@ -37,8 +37,134 @@ function saveCurrentLocation() {
 }
 
 function toggleLocationSettings() {
-    // This would open a settings modal
-    alert('Location settings coming soon!');
+    showManualLocationModal();
+}
+
+function showManualLocationModal() {
+    // Create modal for manual location entry
+    const existingModal = document.getElementById('manual-location-modal');
+    if (existingModal) {
+        existingModal.remove();
+    }
+
+    const modal = document.createElement('div');
+    modal.id = 'manual-location-modal';
+    modal.className = 'location-modal';
+    modal.innerHTML = `
+        <div class="location-modal-content">
+            <div class="location-modal-header">
+                <h3>
+                    <i class="fas fa-map-marked-alt"></i>
+                    Enter Location Manually
+                </h3>
+                <button onclick="closeManualLocationModal()" class="modal-close-btn">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="location-modal-body">
+                <form id="manual-location-form" onsubmit="submitManualLocation(event)">
+                    <div class="form-group">
+                        <label for="manual-city">
+                            <i class="fas fa-city"></i>
+                            City
+                        </label>
+                        <input
+                            type="text"
+                            id="manual-city"
+                            placeholder="e.g., New York, London, Paris"
+                            required
+                        />
+                    </div>
+                    <div class="form-group">
+                        <label for="manual-country">
+                            <i class="fas fa-flag"></i>
+                            Country
+                        </label>
+                        <input
+                            type="text"
+                            id="manual-country"
+                            placeholder="e.g., United States, UK, France"
+                            required
+                        />
+                    </div>
+                    <div class="form-actions">
+                        <button type="button" onclick="closeManualLocationModal()" class="btn-secondary">
+                            Cancel
+                        </button>
+                        <button type="submit" class="btn-primary">
+                            <i class="fas fa-search"></i>
+                            Search News
+                        </button>
+                    </div>
+                </form>
+                <div id="manual-location-status" class="location-status"></div>
+            </div>
+        </div>
+    `;
+
+    document.body.appendChild(modal);
+    setTimeout(() => modal.classList.add('active'), 10);
+}
+
+function closeManualLocationModal() {
+    const modal = document.getElementById('manual-location-modal');
+    if (modal) {
+        modal.classList.remove('active');
+        setTimeout(() => modal.remove(), 300);
+    }
+}
+
+async function submitManualLocation(event) {
+    event.preventDefault();
+
+    const city = document.getElementById('manual-city').value.trim();
+    const country = document.getElementById('manual-country').value.trim();
+    const statusEl = document.getElementById('manual-location-status');
+
+    if (!city || !country) {
+        statusEl.innerHTML = '<p class="error"><i class="fas fa-exclamation-circle"></i> Please enter both city and country</p>';
+        return;
+    }
+
+    statusEl.innerHTML = '<p class="loading"><i class="fas fa-spinner fa-spin"></i> Searching for location...</p>';
+
+    try {
+        // Geocode the location using Nominatim
+        const query = `${city}, ${country}`;
+        const params = new URLSearchParams({
+            type: 'geocode',
+            query: query
+        });
+
+        const response = await fetch(`/api/location?${params}`);
+        const data = await response.json();
+
+        if (data && data.length > 0) {
+            const result = data[0];
+
+            // Update geolocation service with manual location
+            await geoService.updateLocation(parseFloat(result.lat), parseFloat(result.lon));
+
+            // Update display
+            updateLocationDisplay();
+
+            // Reload local news for this location
+            await localNewsManager.loadLocalNewsSources();
+
+            // Close modal
+            closeManualLocationModal();
+
+            showNotification(`Location set to ${city}, ${country}`, 'success');
+
+            // Toggle location menu to show updated location
+            toggleLocationMenu();
+        } else {
+            statusEl.innerHTML = '<p class="error"><i class="fas fa-exclamation-circle"></i> Location not found. Please check spelling.</p>';
+        }
+    } catch (error) {
+        console.error('Manual location error:', error);
+        statusEl.innerHTML = '<p class="error"><i class="fas fa-exclamation-circle"></i> Failed to find location. Please try again.</p>';
+    }
 }
 
 function changeRadius(radiusKm) {
