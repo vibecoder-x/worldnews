@@ -16,6 +16,11 @@
         font-size: 1.5rem;
     }
 
+    .logo-image {
+        height: 40px;
+        max-width: 200px;
+    }
+
     .header-controls {
         width: 100%;
         justify-content: center;
@@ -128,6 +133,11 @@
 
     .logo h1 {
         font-size: 1.25rem;
+    }
+
+    .logo-image {
+        height: 35px;
+        max-width: 150px;
     }
 
     .featured-section h2,

@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="200" height="60" viewBox="0 0 200 60">
+  <defs>
+    <linearGradient id="blueGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#2563EB;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#1E40AF;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="redGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#DC2626;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#991B1B;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+
+  <!-- Globe Icon -->
+  <g transform="translate(10, 10)">
+    <circle cx="20" cy="20" r="18" fill="none" stroke="url(#blueGrad)" stroke-width="2.5"/>
+    <ellipse cx="20" cy="20" rx="8" ry="18" fill="none" stroke="url(#blueGrad)" stroke-width="2"/>
+    <line x1="2" y1="20" x2="38" y2="20" stroke="url(#blueGrad)" stroke-width="2"/>
+    <line x1="20" y1="2" x2="20" y2="38" stroke="url(#blueGrad)" stroke-width="2"/>
+    <ellipse cx="20" cy="20" rx="18" ry="8" fill="none" stroke="url(#blueGrad)" stroke-width="2"/>
+  </g>
+
+  <!-- Text: World -->
+  <text x="55" y="35" font-family="'Roboto', Arial, sans-serif" font-size="24" font-weight="700" fill="url(#blueGrad)">World</text>
+
+  <!-- Text: News -->
+  <text x="118" y="35" font-family="'Roboto', Arial, sans-serif" font-size="24" font-weight="700" fill="url(#redGrad)">News</text>
+
+  <!-- Text: .day -->
+  <text x="175" y="35" font-family="'Roboto', Arial, sans-serif" font-size="20" font-weight="500" fill="#4B5563">.day</text>
+</svg>
