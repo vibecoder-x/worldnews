@@ -176,21 +176,50 @@ class WorldNewsApp {
         const timeAgo = i18n.formatTime(article.publishedAt);
         const readTime = newsAPI.calculateReadingTime(article.content || article.description);
 
+        // Truncate description smartly (end at sentence if possible)
+        const maxLength = 200;
+        let description = article.description || '';
+        if (description.length > maxLength) {
+            const truncated = description.substring(0, maxLength);
+            const lastPeriod = truncated.lastIndexOf('.');
+            const lastQuestion = truncated.lastIndexOf('?');
+            const lastExclamation = truncated.lastIndexOf('!');
+            const sentenceEnd = Math.max(lastPeriod, lastQuestion, lastExclamation);
+
+            if (sentenceEnd > maxLength * 0.6) {
+                description = truncated.substring(0, sentenceEnd + 1);
+            } else {
+                description = truncated + '...';
+            }
+        }
+
         card.innerHTML = `
             <img src="${article.image}" alt="${article.title}" loading="lazy" onerror="this.src='${newsAPI.getPlaceholderImage()}'">
             <div class="article-content">
                 <div class="article-meta">
-                    <span class="article-source">${article.source}</span>
+                    <span class="article-source">
+                        <i class="fas fa-newspaper"></i> ${article.source}
+                    </span>
                     <span class="article-time">
                         <i class="far fa-clock"></i> ${timeAgo}
                     </span>
                 </div>
                 <h3>${article.title}</h3>
-                <p>${article.description.substring(0, 150)}...</p>
+                <p class="article-description">${description}</p>
+                ${article.author && article.author !== 'Unknown' ? `
+                <p class="article-author">
+                    <i class="fas fa-user"></i> By ${article.author}
+                </p>
+                ` : ''}
                 <div class="article-footer">
                     <span class="read-time">
                         <i class="far fa-eye"></i> ${readTime} ${i18n.t('min_read')}
                     </span>
+                    <button class="read-more-btn" onclick="event.stopPropagation()">
+                        <i class="fas fa-book-open"></i> Read More
+                    </button>
+                </div>
+                <div class="article-actions">
                     <div class="share-buttons">
                         ${this.createShareButtons(article)}
                     </div>
@@ -281,27 +310,98 @@ class WorldNewsApp {
         if (!modal || !content) return;
 
         const timeAgo = i18n.formatTime(article.publishedAt);
+        const readTime = newsAPI.calculateReadingTime(article.content || article.description);
+        const publishDate = new Date(article.publishedAt).toLocaleDateString(i18n.getCurrentLanguage(), {
+            year: 'numeric',
+            month: 'long',
+            day: 'numeric'
+        });
+
+        // Extract and clean content
+        const fullContent = article.content || article.description || '';
+        const descriptionText = article.description || '';
+
+        // Format content with paragraphs
+        const formattedContent = fullContent
+            .split('\n')
+            .filter(p => p.trim().length > 0)
+            .map(p => `<p>${p.trim()}</p>`)
+            .join('');
 
         content.innerHTML = `
-            <article>
-                <img src="${article.image}" alt="${article.title}" style="width: 100%; border-radius: 8px; margin-bottom: 20px;" onerror="this.src='${newsAPI.getPlaceholderImage()}'">
-                <div class="article-meta" style="margin-bottom: 15px;">
-                    <span class="article-source">${article.source}</span>
-                    <span class="article-time"><i class="far fa-clock"></i> ${timeAgo}</span>
+            <article class="modal-article">
+                <div class="modal-article-header">
+                    <img src="${article.image}" alt="${article.title}" class="modal-article-image" onerror="this.src='${newsAPI.getPlaceholderImage()}'">
+                    <div class="modal-article-category-badge">${article.category || 'News'}</div>
                 </div>
-                <h1 style="font-family: var(--font-heading); font-size: 2rem; margin-bottom: 20px;">${article.title}</h1>
-                ${article.author ? `<p style="color: var(--gray-600); margin-bottom: 15px;"><strong>By ${article.author}</strong></p>` : ''}
-                <p style="font-size: 1.1rem; line-height: 1.8; margin-bottom: 20px;">${article.description}</p>
-                <a href="${article.url}" target="_blank" rel="noopener noreferrer"
-                   style="display: inline-block; background: linear-gradient(135deg, var(--primary-blue), var(--dark-blue));
-                   color: white; padding: 12px 24px; border-radius: 8px; text-decoration: none; font-weight: 600;">
-                    ${i18n.t('read_more')} <i class="fas fa-external-link-alt"></i>
-                </a>
+
+                <div class="modal-article-body">
+                    <h1 class="modal-article-title">${article.title}</h1>
+
+                    <div class="modal-article-meta">
+                        <div class="meta-item">
+                            <i class="fas fa-newspaper"></i>
+                            <span>${article.source}</span>
+                        </div>
+                        ${article.author && article.author !== 'Unknown' ? `
+                        <div class="meta-item">
+                            <i class="fas fa-user"></i>
+                            <span>${article.author}</span>
+                        </div>
+                        ` : ''}
+                        <div class="meta-item">
+                            <i class="far fa-calendar"></i>
+                            <span>${publishDate}</span>
+                        </div>
+                        <div class="meta-item">
+                            <i class="far fa-clock"></i>
+                            <span>${timeAgo}</span>
+                        </div>
+                        <div class="meta-item">
+                            <i class="far fa-eye"></i>
+                            <span>${readTime} min read</span>
+                        </div>
+                    </div>
+
+                    <div class="modal-article-description">
+                        ${descriptionText}
+                    </div>
+
+                    ${formattedContent && formattedContent !== descriptionText ? `
+                    <div class="modal-article-content">
+                        <h3>Full Story</h3>
+                        ${formattedContent}
+                    </div>
+                    ` : ''}
+
+                    <div class="modal-article-actions">
+                        <a href="${article.url}" target="_blank" rel="noopener noreferrer" class="btn-read-source">
+                            <i class="fas fa-external-link-alt"></i>
+                            Read Full Article at Source
+                        </a>
+
+                        <div class="modal-share-buttons">
+                            <span class="share-label">Share:</span>
+                            ${this.createShareButtons(article)}
+                        </div>
+                    </div>
+
+                    <div class="modal-article-footer">
+                        <p class="source-note">
+                            <i class="fas fa-info-circle"></i>
+                            This article is aggregated from <strong>${article.source}</strong>.
+                            Click "Read Full Article at Source" for the complete story with images and multimedia content.
+                        </p>
+                    </div>
+                </div>
             </article>
         `;
 
         modal.classList.remove('hidden');
         document.body.style.overflow = 'hidden';
+
+        // Scroll to top of modal content
+        content.scrollTop = 0;
     }
 
     // Change category
