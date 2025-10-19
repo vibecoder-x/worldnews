@@ -133,14 +133,24 @@ class WorldNewsApp {
     async loadFeaturedNews() {
         try {
             const language = i18n.getCurrentLanguage();
+            const category = this.mapCategory(this.currentCategory);
+
             // Use combined RSS + API for maximum availability with images
-            const featured = await rssFeedManager.getCombinedNews('general', language, 1, 20);
+            // Fetch 100 articles to ensure we have plenty with images
+            const featured = await rssFeedManager.getCombinedNews(category, language, 1, 100);
 
             // Take first 10 articles with images for featured carousel
             const featuredWithImages = featured.slice(0, 10);
             this.renderFeaturedCarousel(featuredWithImages);
         } catch (error) {
             console.error('Error loading featured news:', error);
+            // Fallback: try with 'all' category if current category fails
+            try {
+                const featured = await rssFeedManager.getCombinedNews('all', language, 1, 100);
+                this.renderFeaturedCarousel(featured.slice(0, 10));
+            } catch (fallbackError) {
+                console.error('Fallback featured news also failed:', fallbackError);
+            }
         }
     }
 
@@ -148,14 +158,24 @@ class WorldNewsApp {
     async loadTrendingNews() {
         try {
             const language = i18n.getCurrentLanguage();
+            const category = this.mapCategory(this.currentCategory);
+
             // Use combined RSS + API for maximum availability with images
-            const trending = await rssFeedManager.getCombinedNews('general', language, 1, 20);
+            // Fetch 100 articles to ensure we have plenty with images
+            const trending = await rssFeedManager.getCombinedNews(category, language, 1, 100);
 
             // Take first 10 articles with images for trending
             const trendingWithImages = trending.slice(0, 10);
             this.renderTrendingNews(trendingWithImages);
         } catch (error) {
             console.error('Error loading trending news:', error);
+            // Fallback: try with 'all' category if current category fails
+            try {
+                const trending = await rssFeedManager.getCombinedNews('all', language, 1, 100);
+                this.renderTrendingNews(trending.slice(0, 10));
+            } catch (fallbackError) {
+                console.error('Fallback trending news also failed:', fallbackError);
+            }
         }
     }
 
