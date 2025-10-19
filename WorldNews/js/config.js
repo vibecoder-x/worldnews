@@ -116,12 +116,12 @@ const CONFIG = {
 
     // Google AdSense Settings
     ADSENSE: {
-        client: 'ca-pub-XXXXXXXXXXXXXXXX',
+        client: 'ca-pub-9175515910132435',
         slots: {
-            leaderboard: 'XXXXXXXXXX',
-            sidebar: 'XXXXXXXXXX',
-            inContent: 'XXXXXXXXXX',
-            footer: 'XXXXXXXXXX'
+            leaderboard: 'auto',
+            sidebar: 'auto',
+            inContent: 'auto',
+            footer: 'auto'
         }
     },
 
