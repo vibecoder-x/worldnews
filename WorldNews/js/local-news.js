@@ -49,6 +49,7 @@ class LocalNewsManager {
         const location = geoService.getCurrentLocation();
         if (!location) {
             console.warn('No location available for local news');
+            this.displayNoLocalNews();
             return;
         }
 
@@ -62,8 +63,30 @@ class LocalNewsManager {
             this.loadRegionalFeeds();
         }
 
-        // Fetch news from local feeds
-        await this.fetchLocalNews();
+        // Fetch news from local feeds with timeout
+        try {
+            await Promise.race([
+                this.fetchLocalNews(),
+                new Promise((_, reject) => setTimeout(() => reject(new Error('Timeout')), 5000))
+            ]);
+        } catch (error) {
+            console.warn('Local news loading timed out or failed:', error);
+            this.displayNoLocalNews();
+        }
+    }
+
+    // Display no local news message
+    displayNoLocalNews() {
+        const container = document.getElementById('nearby-news');
+        if (container) {
+            container.innerHTML = `
+                <div class="no-local-news">
+                    <i class="fas fa-map-marker-alt"></i>
+                    <p>Local news unavailable</p>
+                    <small>Showing general news instead</small>
+                </div>
+            `;
+        }
     }
 
     // Load regional feeds if no local feeds available

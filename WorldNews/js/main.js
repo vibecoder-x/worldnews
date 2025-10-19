@@ -101,9 +101,13 @@ class WorldNewsApp {
             );
 
             if (this.currentPage === 1) {
+                // Replace all articles on first page/refresh
                 this.articles = articles;
             } else {
-                this.articles = [...this.articles, ...articles];
+                // When loading more, remove duplicates before adding
+                const existingIds = new Set(this.articles.map(a => a.id));
+                const newArticles = articles.filter(a => !existingIds.has(a.id));
+                this.articles = [...this.articles, ...newArticles];
             }
 
             this.renderArticles();

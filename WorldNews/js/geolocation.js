@@ -80,22 +80,36 @@ class GeolocationService {
             return this.currentLocation;
         }
 
-        // Try HTML5 geolocation first
-        if (this.isGeolocationSupported()) {
-            try {
-                const position = await this.requestGeolocation();
-                await this.enrichLocationData(position);
-                this.startWatchingPosition();
-                return this.currentLocation;
-            } catch (error) {
-                console.warn('HTML5 Geolocation failed:', error.message);
-            }
-        }
+        // Try both HTML5 and IP geolocation in parallel, use whichever completes first
+        try {
+            const geolocationPromise = this.isGeolocationSupported()
+                ? this.requestGeolocation().then(position => this.enrichLocationData(position))
+                : Promise.reject(new Error('Geolocation not supported'));
 
-        // Fallback to IP-based location
-        console.log('🌐 Falling back to IP-based location...');
-        await this.getIPLocation();
-        return this.currentLocation;
+            const ipLocationPromise = new Promise((resolve) => {
+                setTimeout(() => {
+                    this.getIPLocation().then(resolve).catch(resolve);
+                }, 1000); // Wait 1 second before trying IP location
+            });
+
+            // Use whichever completes first
+            await Promise.race([
+                geolocationPromise,
+                ipLocationPromise,
+                new Promise((_, reject) => setTimeout(() => reject(new Error('Timeout')), 5000))
+            ]);
+
+            if (this.isLocationPermitted) {
+                this.startWatchingPosition();
+            }
+
+            return this.currentLocation;
+        } catch (error) {
+            console.warn('Geolocation failed, using browser fallback:', error.message);
+            // Ultimate fallback to browser language
+            this.useBrowserLanguageFallback();
+            return this.currentLocation;
+        }
     }
 
     // Check if geolocation is supported
