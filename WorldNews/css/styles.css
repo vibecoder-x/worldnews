@@ -140,6 +140,30 @@ body {
     z-index: 1000;
 }
 
+/* Unified Header Bar - Menu, Logo, Language all in one row */
+.header-unified {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: var(--spacing-md) 0;
+    border-bottom: 2px solid var(--gray-100);
+    gap: 2rem;
+}
+
+.header-unified .main-nav {
+    flex: 1;
+    padding: 0;
+    border: none;
+}
+
+.header-unified .logo {
+    flex-shrink: 0;
+}
+
+.header-unified .header-controls {
+    flex-shrink: 0;
+}
+
 .header-top {
     display: flex;
     justify-content: space-between;
@@ -286,18 +310,22 @@ body {
 .main-nav ul {
     display: flex;
     list-style: none;
-    gap: var(--spacing-lg);
+    gap: var(--spacing-md);
     flex-wrap: wrap;
+    margin: 0;
+    padding: 0;
 }
 
 .main-nav a {
     color: var(--gray-700);
     text-decoration: none;
     font-weight: 500;
-    padding: var(--spacing-sm) var(--spacing-md);
+    font-size: 0.9rem;
+    padding: var(--spacing-sm) var(--spacing-sm);
     border-radius: var(--radius-sm);
     transition: all var(--transition-fast);
     position: relative;
+    white-space: nowrap;
 }
 
 .main-nav a:hover,
@@ -308,10 +336,10 @@ body {
 .main-nav a.active::after {
     content: '';
     position: absolute;
-    bottom: -8px;
+    bottom: -4px;
     left: 0;
     right: 0;
-    height: 3px;
+    height: 2px;
     background: linear-gradient(90deg, var(--primary-red), var(--primary-blue));
     border-radius: 2px;
 }

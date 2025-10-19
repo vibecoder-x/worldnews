@@ -59,13 +59,33 @@
     <!-- Header -->
     <header class="header">
         <div class="container">
-            <div class="header-top">
+            <!-- Single Top Bar with Menu, Logo, and Language -->
+            <div class="header-unified">
+                <!-- Navigation Menu -->
+                <nav class="main-nav">
+                    <button class="mobile-menu-toggle" onclick="toggleMobileMenu()">
+                        <i class="fas fa-bars"></i>
+                    </button>
+                    <ul>
+                        <li><a href="#" class="active" data-category="all" data-i18n="nav_home">Home</a></li>
+                        <li><a href="#" data-category="world" data-i18n="nav_world">World</a></li>
+                        <li><a href="#" data-category="politics" data-i18n="nav_politics">Politics</a></li>
+                        <li><a href="#" data-category="business" data-i18n="nav_business">Business</a></li>
+                        <li><a href="#" data-category="technology" data-i18n="nav_tech">Technology</a></li>
+                        <li><a href="#" data-category="health" data-i18n="nav_health">Health</a></li>
+                        <li><a href="#" data-category="sports" data-i18n="nav_sports">Sports</a></li>
+                        <li><a href="#" data-category="entertainment" data-i18n="nav_entertainment">Entertainment</a></li>
+                    </ul>
+                </nav>
+
+                <!-- Logo (Center) -->
                 <div class="logo">
                     <a href="/" title="WorldNews.day Home">
                         <img src="WorldNewsLogo.png" alt="WorldNews.day Logo" class="logo-image">
                     </a>
                 </div>
 
+                <!-- Controls (Right) -->
                 <div class="header-controls">
                     <!-- Manual Refresh Button -->
                     <button class="refresh-btn" onclick="manualRefresh()" title="Refresh news">
@@ -96,23 +116,6 @@
                     </button>
                 </div>
             </div>
-
-            <!-- Navigation -->
-            <nav class="main-nav">
-                <ul>
-                    <li><a href="#" class="active" data-category="all" data-i18n="nav_home">Home</a></li>
-                    <li><a href="#" data-category="world" data-i18n="nav_world">World</a></li>
-                    <li><a href="#" data-category="politics" data-i18n="nav_politics">Politics</a></li>
-                    <li><a href="#" data-category="business" data-i18n="nav_business">Business</a></li>
-                    <li><a href="#" data-category="technology" data-i18n="nav_tech">Technology</a></li>
-                    <li><a href="#" data-category="health" data-i18n="nav_health">Health</a></li>
-                    <li><a href="#" data-category="sports" data-i18n="nav_sports">Sports</a></li>
-                    <li><a href="#" data-category="entertainment" data-i18n="nav_entertainment">Entertainment</a></li>
-                </ul>
-                <button class="mobile-menu-toggle" onclick="toggleMobileMenu()">
-                    <i class="fas fa-bars"></i>
-                </button>
-            </nav>
 
             <!-- Search Bar -->
             <div class="search-container">

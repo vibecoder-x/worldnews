@@ -133,9 +133,12 @@ class WorldNewsApp {
     async loadFeaturedNews() {
         try {
             const language = i18n.getCurrentLanguage();
-            const featured = await newsAPI.fetchNews('general', language, 1, 5);
+            // Use combined RSS + API for maximum availability with images
+            const featured = await rssFeedManager.getCombinedNews('general', language, 1, 20);
 
-            this.renderFeaturedCarousel(featured);
+            // Take first 10 articles with images for featured carousel
+            const featuredWithImages = featured.slice(0, 10);
+            this.renderFeaturedCarousel(featuredWithImages);
         } catch (error) {
             console.error('Error loading featured news:', error);
         }
@@ -145,9 +148,12 @@ class WorldNewsApp {
     async loadTrendingNews() {
         try {
             const language = i18n.getCurrentLanguage();
-            const trending = await newsAPI.fetchNews('general', language, 1, 5);
+            // Use combined RSS + API for maximum availability with images
+            const trending = await rssFeedManager.getCombinedNews('general', language, 1, 20);
 
-            this.renderTrendingNews(trending);
+            // Take first 10 articles with images for trending
+            const trendingWithImages = trending.slice(0, 10);
+            this.renderTrendingNews(trendingWithImages);
         } catch (error) {
             console.error('Error loading trending news:', error);
         }
