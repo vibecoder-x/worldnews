@@ -234,27 +234,33 @@ class RSSFeedManager {
         // Cache miss - fetch fresh data
         const allArticles = [];
 
-        try {
-            // Fetch MINIMAL from APIs to avoid rate limits - just 1 page per API
-            // Main content comes from RSS feeds (free and unlimited)
-            const apiPromises = [];
+        // Only use APIs for English to avoid language mixing issues
+        // Non-English languages rely purely on curated RSS feeds
+        if (language === 'en') {
+            try {
+                // Fetch MINIMAL from APIs to avoid rate limits - just 1 page per API
+                // Main content comes from RSS feeds (free and unlimited)
+                const apiPromises = [];
 
-            // Only fetch 1 page with 20 articles from each API
-            apiPromises.push(newsAPI.fetchFromNewsAPI(category, language, 1, 20).catch(() => []));
-            apiPromises.push(newsAPI.fetchFromGNews(category, language, 1, 20).catch(() => []));
-            apiPromises.push(newsAPI.fetchFromCurrentsAPI(category, language, 1, 20).catch(() => []));
-            apiPromises.push(newsAPI.fetchFromMediastack(category, language, 1, 20).catch(() => []));
+                // Only fetch 1 page with 20 articles from each API
+                apiPromises.push(newsAPI.fetchFromNewsAPI(category, language, 1, 20).catch(() => []));
+                apiPromises.push(newsAPI.fetchFromGNews(category, language, 1, 20).catch(() => []));
+                apiPromises.push(newsAPI.fetchFromCurrentsAPI(category, language, 1, 20).catch(() => []));
+                apiPromises.push(newsAPI.fetchFromMediastack(category, language, 1, 20).catch(() => []));
 
-            const apiResults = await Promise.all(apiPromises);
-            apiResults.forEach(articles => {
-                if (articles && articles.length > 0) {
-                    allArticles.push(...articles);
-                }
-            });
+                const apiResults = await Promise.all(apiPromises);
+                apiResults.forEach(articles => {
+                    if (articles && articles.length > 0) {
+                        allArticles.push(...articles);
+                    }
+                });
 
-            console.log(`✅ Fetched ${allArticles.length} articles from APIs (minimal to avoid rate limits)`);
-        } catch (error) {
-            console.warn('API failed:', error);
+                console.log(`✅ Fetched ${allArticles.length} articles from APIs (English only)`);
+            } catch (error) {
+                console.warn('API failed:', error);
+            }
+        } else {
+            console.log(`📰 Using RSS feeds only for language: ${language} (avoids language mixing)`);
         }
 
         // Fetch ALL RSS feeds for maximum diversity

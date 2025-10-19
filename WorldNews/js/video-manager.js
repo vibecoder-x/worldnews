@@ -123,6 +123,10 @@ class VideoManager {
 
         card.innerHTML = `
             <div class="video-player-wrapper">
+                ${stream.isLive ? `<span class="live-badge">
+                    <i class="fas fa-circle live-indicator"></i>
+                    <span data-i18n="live_now">LIVE NOW</span>
+                </span>` : ''}
                 <div class="video-player-container" data-stream-id="${stream.id}">
                     <div class="video-placeholder" style="background-image: url('${stream.thumbnail}')">
                         <div class="play-button-overlay">

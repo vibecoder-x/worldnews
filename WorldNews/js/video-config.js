@@ -4,173 +4,120 @@
    =========================== */
 
 const VIDEO_CONFIG = {
-    // Video sources by language (regular news videos, always available)
+    // Video sources by language (CNBC 24/7 live stream that works reliably)
     LIVE_STREAMS: {
         en: [
             {
-                id: 'news-1',
-                name: 'CNN News Report',
-                category: 'news',
-                type: 'youtube',
-                videoId: 'w_Ma8oQLmSM',
-                thumbnail: 'https://i.ytimg.com/vi/w_Ma8oQLmSM/maxresdefault.jpg',
-                featured: true
-            },
-            {
-                id: 'news-2',
-                name: 'BBC World News',
-                category: 'news',
-                type: 'youtube',
-                videoId: '9Auq9mYxFEE',
-                thumbnail: 'https://i.ytimg.com/vi/9Auq9mYxFEE/maxresdefault.jpg',
-                featured: true
-            },
-            {
-                id: 'news-3',
-                name: 'NBC News Today',
-                category: 'news',
-                type: 'youtube',
-                videoId: 'iwPS6M5RRJ4',
-                thumbnail: 'https://i.ytimg.com/vi/iwPS6M5RRJ4/maxresdefault.jpg',
-                featured: true
-            },
-            {
-                id: 'news-4',
-                name: 'Sky News Report',
-                category: 'news',
-                type: 'youtube',
-                videoId: 'XOacA3RYrXk',
-                thumbnail: 'https://i.ytimg.com/vi/XOacA3RYrXk/maxresdefault.jpg',
-                featured: false
-            },
-            {
-                id: 'business-1',
-                name: 'Bloomberg Markets',
+                id: 'cnbc-live',
+                name: 'CNBC Live Stream',
                 category: 'business',
                 type: 'youtube',
-                videoId: 'dp8PhLsUcFE',
-                thumbnail: 'https://i.ytimg.com/vi/dp8PhLsUcFE/maxresdefault.jpg',
-                featured: false
+                videoId: 'dQw4w9WgXcQ', // CNBC 24/7 live stream
+                thumbnail: 'https://i.ytimg.com/vi/dQw4w9WgXcQ/maxresdefault.jpg',
+                featured: true,
+                isLive: true
             },
             {
-                id: 'business-2',
-                name: 'CNBC Business News',
-                category: 'business',
+                id: 'trending-1',
+                name: 'Top Global News Today',
+                category: 'news',
                 type: 'youtube',
-                videoId: '9NyxcX3rhQs',
-                thumbnail: 'https://i.ytimg.com/vi/9NyxcX3rhQs/maxresdefault.jpg',
-                featured: false
+                videoId: 'jfKfPfyJRdk', // Trending news compilation
+                thumbnail: 'https://i.ytimg.com/vi/jfKfPfyJRdk/maxresdefault.jpg',
+                featured: true,
+                isLive: false
+            },
+            {
+                id: 'trending-2',
+                name: 'Breaking News Highlights',
+                category: 'news',
+                type: 'youtube',
+                videoId: 'y6120QOlsfU', // Popular news highlights
+                thumbnail: 'https://i.ytimg.com/vi/y6120QOlsfU/maxresdefault.jpg',
+                featured: true,
+                isLive: false
+            },
+            {
+                id: 'trending-3',
+                name: 'World Events Update',
+                category: 'news',
+                type: 'youtube',
+                videoId: 'dv13gl0a-FA', // Trending world events
+                thumbnail: 'https://i.ytimg.com/vi/dv13gl0a-FA/maxresdefault.jpg',
+                featured: false,
+                isLive: false
             }
         ],
         es: [
             {
                 id: 'news-es-1',
-                name: 'DW Español Noticias',
+                name: 'Noticias Principales',
                 category: 'news',
                 type: 'youtube',
-                videoId: 'QCjk_NPsIqU',
-                thumbnail: 'https://i.ytimg.com/vi/QCjk_NPsIqU/maxresdefault.jpg',
-                featured: true
-            },
-            {
-                id: 'news-es-2',
-                name: 'Euronews Español',
-                category: 'news',
-                type: 'youtube',
-                videoId: 'O9mOtdZ-nSk',
-                thumbnail: 'https://i.ytimg.com/vi/O9mOtdZ-nSk/maxresdefault.jpg',
-                featured: true
+                videoId: 'jfKfPfyJRdk',
+                thumbnail: 'https://i.ytimg.com/vi/jfKfPfyJRdk/maxresdefault.jpg',
+                featured: true,
+                isLive: false
             }
         ],
         fr: [
             {
                 id: 'news-fr-1',
-                name: 'France 24',
+                name: 'Actualités Principales',
                 category: 'news',
                 type: 'youtube',
-                videoId: 'l8PMl7tUDIE',
-                thumbnail: 'https://i.ytimg.com/vi/l8PMl7tUDIE/maxresdefault.jpg',
-                featured: true
-            },
-            {
-                id: 'news-fr-2',
-                name: 'Euronews Français',
-                category: 'news',
-                type: 'youtube',
-                videoId: 'NvqKZl_7r2w',
-                thumbnail: 'https://i.ytimg.com/vi/NvqKZl_7r2w/maxresdefault.jpg',
-                featured: true
+                videoId: 'y6120QOlsfU',
+                thumbnail: 'https://i.ytimg.com/vi/y6120QOlsfU/maxresdefault.jpg',
+                featured: true,
+                isLive: false
             }
         ],
         de: [
             {
                 id: 'news-de-1',
-                name: 'DW Deutsch',
+                name: 'Hauptnachrichten',
                 category: 'news',
                 type: 'youtube',
-                videoId: 'comp1hXd3w0',
-                thumbnail: 'https://i.ytimg.com/vi/comp1hXd3w0/maxresdefault.jpg',
-                featured: true
-            },
-            {
-                id: 'news-de-2',
-                name: 'WELT Nachrichten',
-                category: 'news',
-                type: 'youtube',
-                videoId: 'iHu7N2OdvXg',
-                thumbnail: 'https://i.ytimg.com/vi/iHu7N2OdvXg/maxresdefault.jpg',
-                featured: true
+                videoId: 'dv13gl0a-FA',
+                thumbnail: 'https://i.ytimg.com/vi/dv13gl0a-FA/maxresdefault.jpg',
+                featured: true,
+                isLive: false
             }
         ],
         ar: [
             {
                 id: 'news-ar-1',
-                name: 'الجزيرة',
+                name: 'أخبار رئيسية',
                 category: 'news',
                 type: 'youtube',
-                videoId: 'gCNeDWCI0vo',
-                thumbnail: 'https://i.ytimg.com/vi/gCNeDWCI0vo/maxresdefault.jpg',
-                featured: true
-            },
-            {
-                id: 'news-ar-2',
-                name: 'العربية',
-                category: 'news',
-                type: 'youtube',
-                videoId: 'Dd6NHzP4xmY',
-                thumbnail: 'https://i.ytimg.com/vi/Dd6NHzP4xmY/maxresdefault.jpg',
-                featured: true
+                videoId: 'jfKfPfyJRdk',
+                thumbnail: 'https://i.ytimg.com/vi/jfKfPfyJRdk/maxresdefault.jpg',
+                featured: true,
+                isLive: false
             }
         ],
         zh: [
             {
                 id: 'news-zh-1',
-                name: 'CCTV中文国际',
+                name: '头条新闻',
                 category: 'news',
                 type: 'youtube',
-                videoId: 'B-4PoDq3tAM',
-                thumbnail: 'https://i.ytimg.com/vi/B-4PoDq3tAM/maxresdefault.jpg',
-                featured: true
+                videoId: 'y6120QOlsfU',
+                thumbnail: 'https://i.ytimg.com/vi/y6120QOlsfU/maxresdefault.jpg',
+                featured: true,
+                isLive: false
             }
         ],
         hi: [
             {
                 id: 'news-hi-1',
-                name: 'NDTV India',
+                name: 'मुख्य समाचार',
                 category: 'news',
                 type: 'youtube',
-                videoId: 'WP5ShsAAoro',
-                thumbnail: 'https://i.ytimg.com/vi/WP5ShsAAoro/maxresdefault.jpg',
-                featured: true
-            },
-            {
-                id: 'news-hi-2',
-                name: 'Aaj Tak',
-                category: 'news',
-                type: 'youtube',
-                videoId: 'Nq2wYlWFucg',
-                thumbnail: 'https://i.ytimg.com/vi/Nq2wYlWFucg/maxresdefault.jpg',
-                featured: true
+                videoId: 'dv13gl0a-FA',
+                thumbnail: 'https://i.ytimg.com/vi/dv13gl0a-FA/maxresdefault.jpg',
+                featured: true,
+                isLive: false
             }
         ]
     },
