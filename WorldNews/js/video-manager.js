@@ -120,15 +120,9 @@ class VideoManager {
         card.setAttribute('data-stream-id', stream.id);
 
         const embedUrl = this.getEmbedUrl(stream);
-        const isLive = true; // In production, check actual live status
 
         card.innerHTML = `
             <div class="video-player-wrapper">
-                ${isLive ? `<span class="live-badge">
-                    <i class="fas fa-circle live-indicator"></i>
-                    <span data-i18n="live_now">LIVE NOW</span>
-                </span>` : ''}
-
                 <div class="video-player-container" data-stream-id="${stream.id}">
                     <div class="video-placeholder" style="background-image: url('${stream.thumbnail}')">
                         <div class="play-button-overlay">
@@ -209,11 +203,8 @@ class VideoManager {
         });
 
         if (stream.type === 'youtube') {
-            // For live streams, use channel's live stream
-            const videoId = stream.videoId === 'live'
-                ? `live_stream?channel=${stream.channelId}`
-                : stream.videoId;
-            return `${VIDEO_CONFIG.YOUTUBE.embedUrl}${videoId}?${params}`;
+            // Use regular video ID
+            return `${VIDEO_CONFIG.YOUTUBE.embedUrl}${stream.videoId}?${params}`;
         }
 
         return stream.url || '';
