@@ -196,17 +196,15 @@ class RSSFeedManager {
         const allArticles = [];
 
         try {
-            // Fetch MAXIMUM from ALL APIs - multiple pages in parallel
+            // Fetch MINIMAL from APIs to avoid rate limits - just 1 page per API
+            // Main content comes from RSS feeds (free and unlimited)
             const apiPromises = [];
 
-            // Fetch 10 pages from each API for MASSIVE content (100 articles per page)
-            // This ensures 200+ articles per category per language
-            for (let p = 1; p <= 10; p++) {
-                apiPromises.push(newsAPI.fetchFromNewsAPI(category, language, p, 100).catch(() => []));
-                apiPromises.push(newsAPI.fetchFromGNews(category, language, p, 100).catch(() => []));
-                apiPromises.push(newsAPI.fetchFromCurrentsAPI(category, language, p, 100).catch(() => []));
-                apiPromises.push(newsAPI.fetchFromMediastack(category, language, p, 100).catch(() => []));
-            }
+            // Only fetch 1 page with 20 articles from each API
+            apiPromises.push(newsAPI.fetchFromNewsAPI(category, language, 1, 20).catch(() => []));
+            apiPromises.push(newsAPI.fetchFromGNews(category, language, 1, 20).catch(() => []));
+            apiPromises.push(newsAPI.fetchFromCurrentsAPI(category, language, 1, 20).catch(() => []));
+            apiPromises.push(newsAPI.fetchFromMediastack(category, language, 1, 20).catch(() => []));
 
             const apiResults = await Promise.all(apiPromises);
             apiResults.forEach(articles => {
@@ -215,7 +213,7 @@ class RSSFeedManager {
                 }
             });
 
-            console.log(`✅ Fetched ${allArticles.length} articles from APIs (10 pages per API × 4 APIs)`);
+            console.log(`✅ Fetched ${allArticles.length} articles from APIs (minimal to avoid rate limits)`);
         } catch (error) {
             console.warn('API failed:', error);
         }
@@ -251,13 +249,13 @@ class RSSFeedManager {
             this.combinedCache.delete(firstKey);
         }
 
-        // For first page, return massive amount; for subsequent pages, paginate from where page 1 left off
+        // For first page, return large amount from RSS+API; for subsequent pages, paginate
         if (page === 1) {
-            // Return up to 1000 articles on first load for rich content
-            return uniqueArticles.slice(0, 1000);
+            // Return up to 200 articles on first load (mainly from RSS feeds)
+            return uniqueArticles.slice(0, 200);
         } else {
-            // Page 2 starts at 1000, page 3 at 1050, page 4 at 1100, etc.
-            const start = 1000 + ((page - 2) * pageSize);
+            // Page 2 starts at 200, page 3 at 250, page 4 at 300, etc.
+            const start = 200 + ((page - 2) * pageSize);
             const end = start + pageSize;
             return uniqueArticles.slice(start, end); // Subsequent loads: paginated
         }

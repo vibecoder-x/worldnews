@@ -135,7 +135,7 @@ class WorldNewsApp {
             const language = i18n.getCurrentLanguage();
 
             // Always use 'general' for featured to ensure content
-            const featured = await rssFeedManager.getCombinedNews('general', language, 1, 100);
+            const featured = await rssFeedManager.getCombinedNews('general', language, 1, 50);
 
             if (featured && featured.length > 0) {
                 // Take first 10 articles with images for featured carousel
@@ -154,7 +154,7 @@ class WorldNewsApp {
             const language = i18n.getCurrentLanguage();
 
             // Always use 'general' for trending to ensure content
-            const trending = await rssFeedManager.getCombinedNews('general', language, 1, 100);
+            const trending = await rssFeedManager.getCombinedNews('general', language, 1, 50);
 
             if (trending && trending.length > 0) {
                 // Take first 10 articles with images for trending
