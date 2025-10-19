@@ -204,6 +204,7 @@ class RSSFeedManager {
                 apiPromises.push(newsAPI.fetchFromNewsAPI(category, language, p, 100).catch(() => []));
                 apiPromises.push(newsAPI.fetchFromGNews(category, language, p, 100).catch(() => []));
                 apiPromises.push(newsAPI.fetchFromCurrentsAPI(category, language, p, 100).catch(() => []));
+                apiPromises.push(newsAPI.fetchFromMediastack(category, language, p, 100).catch(() => []));
             }
 
             const apiResults = await Promise.all(apiPromises);

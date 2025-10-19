@@ -8,7 +8,7 @@ class NewsAPI {
         this.cache = new Map();
         this.cacheExpiry = 5 * 60 * 1000; // 5 minutes - shorter for fresher content
         this.currentApiIndex = 0;
-        this.apis = ['newsapi', 'gnews', 'currentsapi'];
+        this.apis = ['newsapi', 'gnews', 'currentsapi', 'mediastack'];
     }
 
     // Fetch news from NewsAPI.org (via serverless function)
@@ -82,6 +82,31 @@ class NewsAPI {
             }
         } catch (error) {
             console.error('CurrentsAPI fetch error:', error);
+            throw error;
+        }
+    }
+
+    // Fetch news from Mediastack (via serverless function)
+    async fetchFromMediastack(category = 'general', language = 'en', page = 1, pageSize = 12) {
+        const params = new URLSearchParams({
+            api: 'mediastack',
+            category,
+            language,
+            page,
+            pageSize
+        });
+
+        try {
+            const response = await fetch(`/api/news?${params}`);
+            const data = await response.json();
+
+            if (data.data) {
+                return this.normalizeMediastackData(data.data);
+            } else {
+                throw new Error(data.error?.message || 'Mediastack error');
+            }
+        } catch (error) {
+            console.error('Mediastack fetch error:', error);
             throw error;
         }
     }
@@ -164,6 +189,9 @@ class NewsAPI {
                         break;
                     case 'currentsapi':
                         articles = await this.fetchFromCurrentsAPI(category, language, page, pageSize);
+                        break;
+                    case 'mediastack':
+                        articles = await this.fetchFromMediastack(category, language, page, pageSize);
                         break;
                 }
 
@@ -264,6 +292,33 @@ class NewsAPI {
                     author: article.author || 'Unknown',
                     publishedAt: new Date(article.published),
                     category: article.category?.[0] || 'general'
+                };
+            });
+    }
+
+    // Normalize Mediastack data
+    normalizeMediastackData(articles) {
+        return articles
+            .filter(article => {
+                // Only filter out articles without title/URL
+                return article.title && article.url;
+            })
+            .map(article => {
+                // Clean content - remove [+chars] indicators
+                let description = (article.description || 'No description available')
+                    .replace(/\[\+\d+\s*chars?\]/gi, '...');
+
+                return {
+                    id: this.generateId(article.url),
+                    title: article.title,
+                    description: description,
+                    content: description,
+                    url: article.url,
+                    image: this.validateImage(article.image),
+                    source: article.source || 'Unknown',
+                    author: article.author || article.source || 'Unknown',
+                    publishedAt: new Date(article.published_at),
+                    category: article.category || 'general'
                 };
             });
     }

@@ -13,6 +13,10 @@ const NEWS_APIS = {
     currentsapi: {
         key: process.env.CURRENTSAPI_KEY || 'PtGocmbDg_VtVUH-VvBMm0agRDJzdF3Zy-sgTc8lovnF0MFx',
         endpoint: 'https://api.currentsapi.services/v1'
+    },
+    mediastack: {
+        key: process.env.MEDIASTACK_KEY || 'ef5c3f284f33678af655e00ddefe2971',
+        endpoint: 'http://api.mediastack.com/v1'
     }
 };
 
@@ -107,6 +111,23 @@ module.exports = async (req, res) => {
             }
 
             url = `${NEWS_APIS.currentsapi.endpoint}/latest-news?${params}`;
+        } else if (api === 'mediastack') {
+            const params = new URLSearchParams({
+                access_key: NEWS_APIS.mediastack.key,
+                languages: language,
+                limit: pageSize,
+                offset: (page - 1) * pageSize,
+                sort: 'published_desc'
+            });
+
+            if (category !== 'all' && category !== 'general') {
+                params.append('categories', category);
+            }
+
+            const country = COUNTRY_CODES[language] || 'us';
+            params.append('countries', country);
+
+            url = `${NEWS_APIS.mediastack.endpoint}/news?${params}`;
         } else {
             return res.status(400).json({ error: 'Invalid API specified' });
         }

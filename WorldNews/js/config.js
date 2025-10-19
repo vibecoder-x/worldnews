@@ -9,7 +9,7 @@ const CONFIG = {
         newsapi: '5ff2e88241d7494a8add4b009533eef1',
         gnews: 'dba2727f20fd5a6d763df225da065b48',
         currentsapi: 'PtGocmbDg_VtVUH-VvBMm0agRDJzdF3Zy-sgTc8lovnF0MFx',
-        // Newscatcher API key would go here if needed
+        mediastack: 'ef5c3f284f33678af655e00ddefe2971',
     },
 
     // API Endpoints
@@ -17,6 +17,7 @@ const CONFIG = {
         newsapi: 'https://newsapi.org/v2',
         gnews: 'https://gnews.io/api/v4',
         currentsapi: 'https://api.currentsapi.services/v1',
+        mediastack: 'http://api.mediastack.com/v1',
     },
 
     // RSS Feeds by Language - MASSIVE CONTENT STRATEGY
