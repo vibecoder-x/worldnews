@@ -150,9 +150,17 @@ class RSSFeedManager {
         const languageFeeds = CONFIG.RSS_FEEDS[language] || CONFIG.RSS_FEEDS.en;
 
         // Filter by category if specified
-        const feedsToFetch = category === 'all'
+        // 'general' and 'all' should fetch ALL feeds
+        let feedsToFetch = (category === 'all' || category === 'general')
             ? languageFeeds
             : languageFeeds.filter(feed => feed.category === category);
+
+        // FALLBACK: If no feeds found for this category, use all feeds for the language
+        // This solves the problem where non-English languages don't have category-specific feeds
+        if (feedsToFetch.length === 0) {
+            console.log(`No RSS feeds for category "${category}" in language "${language}", using all feeds`);
+            feedsToFetch = languageFeeds;
+        }
 
         // Fetch all feeds in parallel
         const feedPromises = feedsToFetch.map(feed => this.fetchFeed(feed.url));
@@ -184,9 +192,9 @@ class RSSFeedManager {
 
             // Return paginated results from cache
             if (page === 1) {
-                return uniqueArticles.slice(0, 500);
+                return uniqueArticles.slice(0, 200);
             } else {
-                const start = 500 + ((page - 2) * pageSize);
+                const start = 200 + ((page - 2) * pageSize);
                 const end = start + pageSize;
                 return uniqueArticles.slice(start, end);
             }
