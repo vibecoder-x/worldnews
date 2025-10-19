@@ -57,20 +57,26 @@
         font-size: 1.1rem;
     }
 
-    /* Navigation */
+    /* Navigation - Left Side Slide-in Menu */
     .main-nav ul {
-        display: none;
+        position: fixed;
+        top: 0;
+        left: -280px;
+        width: 280px;
+        height: 100vh;
+        display: flex;
         flex-direction: column;
-        width: 100%;
         gap: 0;
         background: var(--white);
-        border: 1px solid var(--gray-200);
-        border-radius: var(--radius-md);
-        overflow: hidden;
+        box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
+        overflow-y: auto;
+        z-index: 9999;
+        transition: left 0.3s ease-in-out;
+        padding-top: 60px;
     }
 
     .main-nav ul.mobile-active {
-        display: flex;
+        left: 0;
     }
 
     .main-nav li {
@@ -79,13 +85,37 @@
 
     .main-nav a {
         display: block;
-        padding: var(--spacing-md);
+        padding: var(--spacing-lg) var(--spacing-md);
         border-bottom: 1px solid var(--gray-200);
-        font-size: 0.95rem;
+        font-size: 1rem;
+        transition: all 0.2s ease;
+    }
+
+    .main-nav a:hover {
+        background: var(--gray-50);
+        padding-left: 1.5rem;
+    }
+
+    .main-nav a.active {
+        background: var(--light-blue);
+        color: var(--primary-blue);
+        border-left: 4px solid var(--primary-blue);
     }
 
     .main-nav li:last-child a {
         border-bottom: none;
+    }
+
+    /* Overlay for mobile menu */
+    .main-nav ul.mobile-active::before {
+        content: '';
+        position: fixed;
+        top: 0;
+        left: 280px;
+        width: 100vw;
+        height: 100vh;
+        background: rgba(0, 0, 0, 0.5);
+        z-index: -1;
     }
 
     .mobile-menu-toggle {
@@ -105,6 +135,31 @@
 
     .mobile-menu-toggle:hover {
         background: var(--gray-200);
+    }
+
+    /* Dark Mode for Mobile Menu */
+    body.dark-mode .main-nav ul {
+        background: var(--gray-800);
+        box-shadow: 2px 0 10px rgba(0, 0, 0, 0.5);
+    }
+
+    body.dark-mode .main-nav a {
+        border-bottom-color: var(--gray-700);
+    }
+
+    body.dark-mode .main-nav a.active {
+        background: var(--dark-blue);
+        color: var(--light-blue);
+    }
+
+    body.dark-mode .mobile-menu-toggle {
+        background: var(--gray-700);
+        border-color: var(--gray-600);
+        color: var(--gray-200);
+    }
+
+    body.dark-mode .mobile-menu-toggle:hover {
+        background: var(--gray-600);
     }
 
     /* Main Grid */

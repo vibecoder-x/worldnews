@@ -431,6 +431,12 @@ class WorldNewsApp {
         this.currentPage = 1;
         this.articles = [];
 
+        // Close mobile menu if open
+        const nav = document.querySelector('.main-nav ul');
+        if (nav && nav.classList.contains('mobile-active')) {
+            nav.classList.remove('mobile-active');
+        }
+
         // Clear caches for fresh content
         if (window.newsAPI) {
             newsAPI.clearCache();
@@ -707,6 +713,20 @@ function closeBreakingNews() {
 function toggleMobileMenu() {
     const nav = document.querySelector('.main-nav ul');
     nav?.classList.toggle('mobile-active');
+
+    // Close menu when clicking outside (on overlay)
+    if (nav && nav.classList.contains('mobile-active')) {
+        const closeOnClickOutside = (e) => {
+            if (!nav.contains(e.target) && !e.target.closest('.mobile-menu-toggle')) {
+                nav.classList.remove('mobile-active');
+                document.removeEventListener('click', closeOnClickOutside);
+            }
+        };
+        // Add listener after a short delay to prevent immediate closing
+        setTimeout(() => {
+            document.addEventListener('click', closeOnClickOutside);
+        }, 100);
+    }
 }
 
 function adjustFontSize(action) {
