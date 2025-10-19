@@ -61,9 +61,9 @@ class RSSFeedManager {
                            item.querySelector('media\\:content, content')?.getAttribute('url') ||
                            this.extractImageFromContent(description);
 
-                // Use placeholder if no image found
+                // Skip articles without valid images
                 if (!image || !image.startsWith('http')) {
-                    image = newsAPI.getPlaceholderImage(category);
+                    return; // Skip this article
                 }
 
                 // Extract category
@@ -105,9 +105,9 @@ class RSSFeedManager {
                 let image = entry.querySelector('media\\:thumbnail, thumbnail')?.getAttribute('url') ||
                            this.extractImageFromContent(summary);
 
-                // Use placeholder if no image found
+                // Skip articles without valid images
                 if (!image || !image.startsWith('http')) {
-                    image = newsAPI.getPlaceholderImage(category);
+                    return; // Skip this article
                 }
 
                 const category = entry.querySelector('category')?.getAttribute('term') || 'general';

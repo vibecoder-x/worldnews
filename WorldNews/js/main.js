@@ -177,21 +177,22 @@ class WorldNewsApp {
         const timeAgo = i18n.formatTime(article.publishedAt);
         const readTime = newsAPI.calculateReadingTime(article.content || article.description);
 
-        // Show up to 1500 characters with smart truncation
-        const maxLength = 1500;
-        let description = (article.description || '').replace(/\[\+\d+\s*chars?\]/gi, '...');
+        // Short preview for card (150 characters max)
+        const shortLength = 150;
+        let fullDescription = (article.description || '').replace(/\[\+\d+\s*chars?\]/gi, '...');
+        let shortDescription = fullDescription;
 
-        if (description.length > maxLength) {
-            const truncated = description.substring(0, maxLength);
+        if (fullDescription.length > shortLength) {
+            const truncated = fullDescription.substring(0, shortLength);
             const lastPeriod = truncated.lastIndexOf('.');
             const lastQuestion = truncated.lastIndexOf('?');
             const lastExclamation = truncated.lastIndexOf('!');
             const sentenceEnd = Math.max(lastPeriod, lastQuestion, lastExclamation);
 
-            if (sentenceEnd > maxLength * 0.6) {
-                description = truncated.substring(0, sentenceEnd + 1);
+            if (sentenceEnd > shortLength * 0.5) {
+                shortDescription = truncated.substring(0, sentenceEnd + 1);
             } else {
-                description = truncated + '...';
+                shortDescription = truncated + '...';
             }
         }
 
@@ -207,24 +208,14 @@ class WorldNewsApp {
                     </span>
                 </div>
                 <h3>${article.title}</h3>
-                <p class="article-description">${description}</p>
-                ${article.author && article.author !== 'Unknown' ? `
-                <p class="article-author">
-                    <i class="fas fa-user"></i> By ${article.author}
-                </p>
-                ` : ''}
+                <p class="article-description">${shortDescription}</p>
                 <div class="article-footer">
                     <span class="read-time">
                         <i class="far fa-eye"></i> ${readTime} ${i18n.t('min_read')}
                     </span>
                     <button class="read-more-btn" onclick="event.stopPropagation()">
-                        <i class="fas fa-book-open"></i> Read More
+                        <i class="fas fa-book-open"></i> Read Full Story
                     </button>
-                </div>
-                <div class="article-actions">
-                    <div class="share-buttons">
-                        ${this.createShareButtons(article)}
-                    </div>
                 </div>
             </div>
         `;

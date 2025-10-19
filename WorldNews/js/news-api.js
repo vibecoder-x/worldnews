@@ -213,10 +213,12 @@ class NewsAPI {
     normalizeNewsAPIData(articles) {
         return articles
             .filter(article => {
-                // Only filter out removed articles, keep those with/without images
+                // Filter out removed articles AND articles without images
                 return article.title &&
                        article.title !== '[Removed]' &&
-                       article.url;
+                       article.url &&
+                       article.urlToImage &&
+                       article.urlToImage.startsWith('http');
             })
             .map(article => {
                 // Clean content - remove [+chars] indicators
@@ -244,8 +246,11 @@ class NewsAPI {
     normalizeGNewsData(articles) {
         return articles
             .filter(article => {
-                // Only filter out articles without title/URL
-                return article.title && article.url;
+                // Filter out articles without title/URL/image
+                return article.title &&
+                       article.url &&
+                       article.image &&
+                       article.image.startsWith('http');
             })
             .map(article => {
                 // Clean content - remove [+chars] indicators
@@ -273,8 +278,11 @@ class NewsAPI {
     normalizeCurrentsAPIData(articles) {
         return articles
             .filter(article => {
-                // Only filter out articles without title/URL
-                return article.title && article.url;
+                // Filter out articles without title/URL/image
+                return article.title &&
+                       article.url &&
+                       article.image &&
+                       (article.image.startsWith('http') || article.image === 'None');
             })
             .map(article => {
                 // Clean content - remove [+chars] indicators
@@ -300,8 +308,11 @@ class NewsAPI {
     normalizeMediastackData(articles) {
         return articles
             .filter(article => {
-                // Only filter out articles without title/URL
-                return article.title && article.url;
+                // Filter out articles without title/URL/image
+                return article.title &&
+                       article.url &&
+                       article.image &&
+                       article.image.startsWith('http');
             })
             .map(article => {
                 // Clean content - remove [+chars] indicators
