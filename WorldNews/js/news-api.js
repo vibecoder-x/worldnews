@@ -184,7 +184,15 @@ class NewsAPI {
     // Normalize NewsAPI data
     normalizeNewsAPIData(articles) {
         return articles
-            .filter(article => article.title && article.title !== '[Removed]' && article.url) // Filter out removed articles
+            .filter(article => {
+                // Filter out: removed articles, no title, no URL, no image
+                return article.title &&
+                       article.title !== '[Removed]' &&
+                       article.url &&
+                       article.urlToImage &&
+                       article.urlToImage !== 'null' &&
+                       article.urlToImage.startsWith('http');
+            })
             .map(article => {
                 // Clean content - remove [+chars] indicators
                 let description = (article.description || article.content || 'No description available')
@@ -210,7 +218,14 @@ class NewsAPI {
     // Normalize GNews data
     normalizeGNewsData(articles) {
         return articles
-            .filter(article => article.title && article.url)
+            .filter(article => {
+                // Filter out: no title, no URL, no image
+                return article.title &&
+                       article.url &&
+                       article.image &&
+                       article.image !== 'null' &&
+                       article.image.startsWith('http');
+            })
             .map(article => {
                 // Clean content - remove [+chars] indicators
                 let description = (article.description || 'No description available')
@@ -236,7 +251,15 @@ class NewsAPI {
     // Normalize CurrentsAPI data
     normalizeCurrentsAPIData(articles) {
         return articles
-            .filter(article => article.title && article.url)
+            .filter(article => {
+                // Filter out: no title, no URL, no image
+                return article.title &&
+                       article.url &&
+                       article.image &&
+                       article.image !== 'null' &&
+                       article.image !== 'None' &&
+                       article.image.startsWith('http');
+            })
             .map(article => {
                 // Clean content - remove [+chars] indicators
                 let description = (article.description || 'No description available')

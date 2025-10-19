@@ -100,30 +100,17 @@ class WorldNewsApp {
                 CONFIG.DEFAULTS.articlesPerPage
             );
 
-            // Filter out articles older than 7 days
-            const sevenDaysAgo = new Date();
-            sevenDaysAgo.setDate(sevenDaysAgo.getDate() - 7);
-            const freshArticles = articles.filter(article => {
-                const articleDate = new Date(article.publishedAt);
-                return articleDate >= sevenDaysAgo;
-            });
-
             if (this.currentPage === 1) {
                 // Replace all articles on first page/refresh
-                this.articles = freshArticles;
+                this.articles = articles;
             } else {
                 // When loading more, remove duplicates before adding
                 const existingIds = new Set(this.articles.map(a => a.id));
-                const newArticles = freshArticles.filter(a => !existingIds.has(a.id));
+                const newArticles = articles.filter(a => !existingIds.has(a.id));
                 this.articles = [...this.articles, ...newArticles];
             }
 
-            // Also clean existing articles - remove any older than 7 days
-            this.articles = this.articles.filter(article => {
-                const articleDate = new Date(article.publishedAt);
-                return articleDate >= sevenDaysAgo;
-            });
-
+            // Keep all articles - they stay for 7 days naturally through cache
             this.renderArticles();
 
             // Hide load more button if no more articles
@@ -398,16 +385,10 @@ class WorldNewsApp {
                         </div>
                     </div>
 
-                    <div class="modal-article-description">
-                        ${descriptionText}
-                    </div>
-
-                    ${formattedContent && formattedContent !== descriptionText ? `
                     <div class="modal-article-content">
                         <h3>Full Story</h3>
                         ${formattedContent}
                     </div>
-                    ` : ''}
 
                     <div class="modal-article-actions">
                         <a href="${article.url}" target="_blank" rel="noopener noreferrer" class="btn-read-source">
