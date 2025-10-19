@@ -175,10 +175,11 @@ class RSSFeedManager {
         const allArticles = [];
 
         try {
-            // Fetch from multiple APIs in parallel for diversity
+            // Fetch MORE from multiple APIs in parallel for diversity
             const apiPromises = [
-                newsAPI.fetchFromNewsAPI(category, language, page, Math.ceil(pageSize / 2)).catch(() => []),
-                newsAPI.fetchFromGNews(category, language, page, Math.ceil(pageSize / 2)).catch(() => []),
+                newsAPI.fetchFromNewsAPI(category, language, page, pageSize).catch(() => []),
+                newsAPI.fetchFromGNews(category, language, page, pageSize).catch(() => []),
+                newsAPI.fetchFromCurrentsAPI(category, language, page, pageSize).catch(() => []),
             ];
 
             const apiResults = await Promise.all(apiPromises);
@@ -197,8 +198,8 @@ class RSSFeedManager {
         try {
             const rssArticles = await this.fetchLanguageFeeds(language, category);
             if (rssArticles && rssArticles.length > 0) {
-                allArticles.push(...rssArticles.slice(0, Math.ceil(pageSize / 3)));
-                console.log(`✅ Added ${Math.min(rssArticles.length, Math.ceil(pageSize / 3))} RSS articles`);
+                allArticles.push(...rssArticles.slice(0, pageSize));
+                console.log(`✅ Added ${Math.min(rssArticles.length, pageSize)} RSS articles`);
             }
         } catch (error) {
             console.warn('RSS failed:', error);
@@ -210,8 +211,10 @@ class RSSFeedManager {
         // Sort by date (newest first)
         uniqueArticles.sort((a, b) => new Date(b.publishedAt) - new Date(a.publishedAt));
 
-        // Return paginated results
-        return uniqueArticles.slice(0, pageSize);
+        console.log(`📰 Total unique articles: ${uniqueArticles.length}`);
+
+        // Return paginated results - take more articles
+        return uniqueArticles.slice(0, pageSize * 2); // Double the results
     }
 
     // Remove duplicate articles

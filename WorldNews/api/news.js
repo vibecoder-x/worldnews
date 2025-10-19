@@ -54,25 +54,22 @@ module.exports = async (req, res) => {
                 });
                 url = `${NEWS_APIS.newsapi.endpoint}/everything?${params}`;
             } else {
-                // Use everything endpoint with sortBy=publishedAt for latest news
+                // Use top-headlines for better results
                 const country = COUNTRY_CODES[language] || 'us';
-                let searchQuery = country;
-
-                if (category !== 'all' && category !== 'general') {
-                    searchQuery = category;
-                }
-
                 const params = new URLSearchParams({
                     apiKey: NEWS_APIS.newsapi.key,
-                    q: searchQuery,
-                    language,
                     pageSize,
                     page,
-                    sortBy: 'publishedAt',
-                    from: new Date(Date.now() - 7 * 24 * 60 * 60 * 1000).toISOString() // Last 7 days
+                    language
                 });
 
-                url = `${NEWS_APIS.newsapi.endpoint}/everything?${params}`;
+                if (category !== 'all' && category !== 'general') {
+                    params.append('category', category);
+                } else {
+                    params.append('country', country);
+                }
+
+                url = `${NEWS_APIS.newsapi.endpoint}/top-headlines?${params}`;
             }
         } else if (api === 'gnews') {
             if (query) {
