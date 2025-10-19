@@ -25,6 +25,12 @@ const TRANSLATIONS = {
         loading: 'Loading news...',
         load_more: 'Load More',
         read_more: 'Read More',
+        all: 'All',
+
+        // Live Video
+        live_video: 'Live Video',
+        live_now: 'LIVE NOW',
+        nav_news: 'News',
 
         // Newsletter
         newsletter_title: 'Stay Updated',
@@ -94,6 +100,12 @@ const TRANSLATIONS = {
         loading: 'Cargando noticias...',
         load_more: 'Cargar Más',
         read_more: 'Leer Más',
+        all: 'Todos',
+
+        // Video en Vivo
+        live_video: 'Video en Vivo',
+        live_now: 'EN VIVO',
+        nav_news: 'Noticias',
 
         // Newsletter
         newsletter_title: 'Mantente Actualizado',
@@ -152,6 +164,12 @@ const TRANSLATIONS = {
         loading: 'Chargement des actualités...',
         load_more: 'Charger Plus',
         read_more: 'Lire Plus',
+        all: 'Tous',
+
+        // Vidéo en Direct
+        live_video: 'Vidéo en Direct',
+        live_now: 'EN DIRECT',
+        nav_news: 'Actualités',
 
         // Newsletter
         newsletter_title: 'Restez Informé',
@@ -210,6 +228,12 @@ const TRANSLATIONS = {
         loading: 'Nachrichten werden geladen...',
         load_more: 'Mehr Laden',
         read_more: 'Mehr Lesen',
+        all: 'Alle',
+
+        // Live-Video
+        live_video: 'Live-Video',
+        live_now: 'LIVE',
+        nav_news: 'Nachrichten',
 
         // Newsletter
         newsletter_title: 'Bleiben Sie Informiert',
@@ -268,6 +292,12 @@ const TRANSLATIONS = {
         loading: 'جاري تحميل الأخبار...',
         load_more: 'تحميل المزيد',
         read_more: 'اقرأ المزيد',
+        all: 'الكل',
+
+        // فيديو مباشر
+        live_video: 'فيديو مباشر',
+        live_now: 'مباشر الآن',
+        nav_news: 'أخبار',
 
         // النشرة الإخبارية
         newsletter_title: 'ابق على اطلاع',
@@ -326,6 +356,12 @@ const TRANSLATIONS = {
         loading: '正在加载新闻...',
         load_more: '加载更多',
         read_more: '阅读更多',
+        all: '全部',
+
+        // 直播视频
+        live_video: '直播视频',
+        live_now: '正在直播',
+        nav_news: '新闻',
 
         // 新闻订阅
         newsletter_title: '保持更新',
@@ -395,6 +431,12 @@ const TRANSLATIONS = {
         loading: 'समाचार लोड हो रहे हैं...',
         load_more: 'और लोड करें',
         read_more: 'और पढ़ें',
+        all: 'सभी',
+
+        // लाइव वीडियो
+        live_video: 'लाइव वीडियो',
+        live_now: 'लाइव',
+        nav_news: 'समाचार',
 
         // न्यूज़लेटर
         newsletter_title: 'अपडेट रहें',

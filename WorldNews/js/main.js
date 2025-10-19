@@ -21,7 +21,15 @@ class WorldNewsApp {
         this.setupEventListeners();
         this.startAutoRefresh();
         await this.loadInitialNews();
+        this.initializeVideoManager();
         this.initializeAdSense();
+    }
+
+    // Initialize video manager
+    initializeVideoManager() {
+        if (typeof videoManager !== 'undefined') {
+            videoManager.init();
+        }
     }
 
     // Setup event listeners
