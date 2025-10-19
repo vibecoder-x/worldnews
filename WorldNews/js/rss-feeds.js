@@ -155,10 +155,12 @@ class RSSFeedManager {
             ? languageFeeds
             : languageFeeds.filter(feed => feed.category === category);
 
-        // FALLBACK: If no feeds found for this category, use all feeds for the language
-        // This solves the problem where non-English languages don't have category-specific feeds
-        if (feedsToFetch.length === 0) {
-            console.log(`No RSS feeds for category "${category}" in language "${language}", using all feeds`);
+        // For non-English languages without category-specific feeds:
+        // Instead of showing ALL feeds (which makes every category identical),
+        // fetch all feeds but filter articles by keyword matching
+        const needsKeywordFiltering = feedsToFetch.length === 0 && category !== 'all' && category !== 'general';
+        if (needsKeywordFiltering) {
+            console.log(`No RSS feeds for category "${category}" in language "${language}", will use keyword filtering`);
             feedsToFetch = languageFeeds;
         }
 
@@ -167,17 +169,46 @@ class RSSFeedManager {
         const results = await Promise.allSettled(feedPromises);
 
         // Combine all articles
-        const allArticles = [];
+        let allArticles = [];
         results.forEach(result => {
             if (result.status === 'fulfilled' && result.value) {
                 allArticles.push(...result.value);
             }
         });
 
+        // Apply keyword filtering if needed
+        if (needsKeywordFiltering) {
+            allArticles = this.filterArticlesByCategory(allArticles, category, language);
+            console.log(`Keyword filtering: ${allArticles.length} articles matched category "${category}"`);
+        }
+
         // Sort by date (newest first)
         allArticles.sort((a, b) => b.publishedAt - a.publishedAt);
 
         return allArticles;
+    }
+
+    // Filter articles by category using keyword matching
+    filterArticlesByCategory(articles, category, language) {
+        // Category keywords for filtering (multilingual)
+        const categoryKeywords = {
+            business: ['business', 'economy', 'market', 'stock', 'finance', 'company', 'trade', 'banco', 'economía', 'mercado', 'économie', 'marché', 'wirtschaft', 'unternehmen', 'اقتصاد', 'سوق', '经济', '市场', 'व्यापार', 'बाजार'],
+            technology: ['technology', 'tech', 'digital', 'software', 'computer', 'internet', 'AI', 'app', 'tecnología', 'technologie', 'technik', 'تقنية', 'تكنولوجيا', '科技', '技术', 'प्रौद्योगिकी'],
+            sports: ['sport', 'football', 'soccer', 'basketball', 'tennis', 'game', 'match', 'player', 'team', 'deporte', 'fútbol', 'رياضة', 'كرة', '体育', '足球', 'खेल', 'फुटबॉल'],
+            health: ['health', 'medical', 'doctor', 'hospital', 'disease', 'medicine', 'patient', 'salud', 'médico', 'santé', 'médecin', 'gesundheit', 'arzt', 'صحة', 'طبيب', '健康', '医疗', 'स्वास्थ्य', 'चिकित्सा'],
+            entertainment: ['entertainment', 'movie', 'film', 'music', 'celebrity', 'actor', 'TV', 'show', 'entretenimiento', 'película', 'divertissement', 'film', 'unterhaltung', 'ترفيه', 'فيلم', '娱乐', '电影', 'मनोरंजन', 'फिल्म'],
+            politics: ['politic', 'government', 'president', 'minister', 'election', 'vote', 'parliament', 'política', 'gobierno', 'politique', 'gouvernement', 'politik', 'regierung', 'سياسة', 'حكومة', '政治', '政府', 'राजनीति', 'सरकार'],
+            world: ['world', 'international', 'global', 'country', 'nation', 'mundial', 'monde', 'welt', 'عالمي', 'دولي', '世界', '国际', 'विश्व', 'अंतरराष्ट्रीय']
+        };
+
+        const keywords = categoryKeywords[category] || [];
+        if (keywords.length === 0) return articles;
+
+        // Filter articles that contain category keywords in title or description
+        return articles.filter(article => {
+            const text = `${article.title} ${article.description}`.toLowerCase();
+            return keywords.some(keyword => text.includes(keyword.toLowerCase()));
+        });
     }
 
     // Combine RSS feeds with API results for MASSIVE content
