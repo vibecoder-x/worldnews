@@ -185,54 +185,76 @@ class NewsAPI {
     normalizeNewsAPIData(articles) {
         return articles
             .filter(article => article.title && article.title !== '[Removed]' && article.url) // Filter out removed articles
-            .map(article => ({
-                id: this.generateId(article.url),
-                title: article.title,
-                description: article.description || article.content || 'No description available',
-                content: article.content || article.description || '',
-                url: article.url,
-                image: this.validateImage(article.urlToImage),
-                source: article.source?.name || 'Unknown',
-                author: article.author || article.source?.name || 'Unknown',
-                publishedAt: new Date(article.publishedAt),
-                category: this.extractCategory(article)
-            }));
+            .map(article => {
+                // Clean content - remove [+chars] indicators
+                let description = (article.description || article.content || 'No description available')
+                    .replace(/\[\+\d+\s*chars?\]/gi, '...');
+                let content = (article.content || article.description || '')
+                    .replace(/\[\+\d+\s*chars?\]/gi, '...');
+
+                return {
+                    id: this.generateId(article.url),
+                    title: article.title,
+                    description: description,
+                    content: content,
+                    url: article.url,
+                    image: this.validateImage(article.urlToImage),
+                    source: article.source?.name || 'Unknown',
+                    author: article.author || article.source?.name || 'Unknown',
+                    publishedAt: new Date(article.publishedAt),
+                    category: this.extractCategory(article)
+                };
+            });
     }
 
     // Normalize GNews data
     normalizeGNewsData(articles) {
         return articles
             .filter(article => article.title && article.url)
-            .map(article => ({
-                id: this.generateId(article.url),
-                title: article.title,
-                description: article.description || 'No description available',
-                content: article.content || article.description || '',
-                url: article.url,
-                image: this.validateImage(article.image),
-                source: article.source?.name || 'Unknown',
-                author: article.source?.name || 'Unknown',
-                publishedAt: new Date(article.publishedAt),
-                category: 'general'
-            }));
+            .map(article => {
+                // Clean content - remove [+chars] indicators
+                let description = (article.description || 'No description available')
+                    .replace(/\[\+\d+\s*chars?\]/gi, '...');
+                let content = (article.content || article.description || '')
+                    .replace(/\[\+\d+\s*chars?\]/gi, '...');
+
+                return {
+                    id: this.generateId(article.url),
+                    title: article.title,
+                    description: description,
+                    content: content,
+                    url: article.url,
+                    image: this.validateImage(article.image),
+                    source: article.source?.name || 'Unknown',
+                    author: article.source?.name || 'Unknown',
+                    publishedAt: new Date(article.publishedAt),
+                    category: 'general'
+                };
+            });
     }
 
     // Normalize CurrentsAPI data
     normalizeCurrentsAPIData(articles) {
         return articles
             .filter(article => article.title && article.url)
-            .map(article => ({
-                id: article.id || this.generateId(article.url),
-                title: article.title,
-                description: article.description || 'No description available',
-                content: article.description || '',
-                url: article.url,
-                image: this.validateImage(article.image),
-                source: article.author || 'Unknown',
-                author: article.author || 'Unknown',
-                publishedAt: new Date(article.published),
-                category: article.category?.[0] || 'general'
-            }));
+            .map(article => {
+                // Clean content - remove [+chars] indicators
+                let description = (article.description || 'No description available')
+                    .replace(/\[\+\d+\s*chars?\]/gi, '...');
+
+                return {
+                    id: article.id || this.generateId(article.url),
+                    title: article.title,
+                    description: description,
+                    content: description,
+                    url: article.url,
+                    image: this.validateImage(article.image),
+                    source: article.author || 'Unknown',
+                    author: article.author || 'Unknown',
+                    publishedAt: new Date(article.published),
+                    category: article.category?.[0] || 'general'
+                };
+            });
     }
 
     // Generate unique ID from URL

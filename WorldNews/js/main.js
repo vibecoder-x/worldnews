@@ -192,7 +192,8 @@ class WorldNewsApp {
 
         // Show up to 1500 characters with smart truncation
         const maxLength = 1500;
-        let description = article.description || '';
+        let description = (article.description || '').replace(/\[\+\d+\s*chars?\]/gi, '...');
+
         if (description.length > maxLength) {
             const truncated = description.substring(0, maxLength);
             const lastPeriod = truncated.lastIndexOf('.');
@@ -331,9 +332,29 @@ class WorldNewsApp {
             day: 'numeric'
         });
 
-        // Extract and clean content
-        const fullContent = article.content || article.description || '';
-        const descriptionText = article.description || '';
+        // Extract and clean content - remove [+chars] indicators
+        let fullContent = article.content || article.description || '';
+        let descriptionText = article.description || '';
+
+        // Remove [+XXXX chars] patterns
+        fullContent = fullContent.replace(/\[\+\d+\s*chars?\]/gi, '...');
+        descriptionText = descriptionText.replace(/\[\+\d+\s*chars?\]/gi, '...');
+
+        // Limit full story to 1500 characters
+        if (fullContent.length > 1500) {
+            fullContent = fullContent.substring(0, 1500);
+            // Try to end at sentence
+            const lastPeriod = fullContent.lastIndexOf('.');
+            const lastQuestion = fullContent.lastIndexOf('?');
+            const lastExclamation = fullContent.lastIndexOf('!');
+            const sentenceEnd = Math.max(lastPeriod, lastQuestion, lastExclamation);
+
+            if (sentenceEnd > 900) { // At least 900 chars
+                fullContent = fullContent.substring(0, sentenceEnd + 1);
+            } else {
+                fullContent = fullContent + '...';
+            }
+        }
 
         // Format content with paragraphs
         const formattedContent = fullContent
