@@ -27,7 +27,8 @@ const TRANSLATIONS = {
         read_more: 'Read More',
         all: 'All',
 
-        // Live Video
+        // Video Section
+        video_section: 'Video',
         live_video: 'Live Video',
         live_now: 'LIVE NOW',
         nav_news: 'News',
@@ -102,7 +103,8 @@ const TRANSLATIONS = {
         read_more: 'Leer Más',
         all: 'Todos',
 
-        // Video en Vivo
+        // Video
+        video_section: 'Video',
         live_video: 'Video en Vivo',
         live_now: 'EN VIVO',
         nav_news: 'Noticias',
@@ -166,7 +168,8 @@ const TRANSLATIONS = {
         read_more: 'Lire Plus',
         all: 'Tous',
 
-        // Vidéo en Direct
+        // Vidéo
+        video_section: 'Vidéo',
         live_video: 'Vidéo en Direct',
         live_now: 'EN DIRECT',
         nav_news: 'Actualités',
@@ -230,7 +233,8 @@ const TRANSLATIONS = {
         read_more: 'Mehr Lesen',
         all: 'Alle',
 
-        // Live-Video
+        // Video
+        video_section: 'Video',
         live_video: 'Live-Video',
         live_now: 'LIVE',
         nav_news: 'Nachrichten',
@@ -294,7 +298,8 @@ const TRANSLATIONS = {
         read_more: 'اقرأ المزيد',
         all: 'الكل',
 
-        // فيديو مباشر
+        // فيديو
+        video_section: 'فيديو',
         live_video: 'فيديو مباشر',
         live_now: 'مباشر الآن',
         nav_news: 'أخبار',
@@ -358,7 +363,8 @@ const TRANSLATIONS = {
         read_more: '阅读更多',
         all: '全部',
 
-        // 直播视频
+        // 视频
+        video_section: '视频',
         live_video: '直播视频',
         live_now: '正在直播',
         nav_news: '新闻',
@@ -433,7 +439,8 @@ const TRANSLATIONS = {
         read_more: 'और पढ़ें',
         all: 'सभी',
 
-        // लाइव वीडियो
+        // वीडियो
+        video_section: 'वीडियो',
         live_video: 'लाइव वीडियो',
         live_now: 'लाइव',
         nav_news: 'समाचार',

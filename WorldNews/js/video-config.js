@@ -4,48 +4,96 @@
    =========================== */
 
 const VIDEO_CONFIG = {
-    // Video sources by language (CNBC 24/7 live stream that works reliably)
+    // News video sources by language (BBC-style news videos)
     LIVE_STREAMS: {
         en: [
             {
-                id: 'cnbc-live',
-                name: 'CNBC Live Stream',
+                id: 'world-news-1',
+                name: 'Global Headlines Today',
+                category: 'world',
+                type: 'youtube',
+                videoId: 'jfKfPfyJRdk',
+                thumbnail: 'https://i.ytimg.com/vi/jfKfPfyJRdk/maxresdefault.jpg',
+                duration: '15:30',
+                description: 'Latest global news coverage and breaking stories from around the world',
+                featured: true
+            },
+            {
+                id: 'politics-1',
+                name: 'Political Analysis',
+                category: 'politics',
+                type: 'youtube',
+                videoId: 'y6120QOlsfU',
+                thumbnail: 'https://i.ytimg.com/vi/y6120QOlsfU/maxresdefault.jpg',
+                duration: '12:45',
+                description: 'In-depth political coverage and expert analysis',
+                featured: true
+            },
+            {
+                id: 'business-1',
+                name: 'Business Update',
                 category: 'business',
                 type: 'youtube',
-                videoId: 'dQw4w9WgXcQ', // CNBC 24/7 live stream
-                thumbnail: 'https://i.ytimg.com/vi/dQw4w9WgXcQ/maxresdefault.jpg',
-                featured: true,
-                isLive: true
-            },
-            {
-                id: 'trending-1',
-                name: 'Top Global News Today',
-                category: 'news',
-                type: 'youtube',
-                videoId: 'jfKfPfyJRdk', // Trending news compilation
-                thumbnail: 'https://i.ytimg.com/vi/jfKfPfyJRdk/maxresdefault.jpg',
-                featured: true,
-                isLive: false
-            },
-            {
-                id: 'trending-2',
-                name: 'Breaking News Highlights',
-                category: 'news',
-                type: 'youtube',
-                videoId: 'y6120QOlsfU', // Popular news highlights
-                thumbnail: 'https://i.ytimg.com/vi/y6120QOlsfU/maxresdefault.jpg',
-                featured: true,
-                isLive: false
-            },
-            {
-                id: 'trending-3',
-                name: 'World Events Update',
-                category: 'news',
-                type: 'youtube',
-                videoId: 'dv13gl0a-FA', // Trending world events
+                videoId: 'dv13gl0a-FA',
                 thumbnail: 'https://i.ytimg.com/vi/dv13gl0a-FA/maxresdefault.jpg',
-                featured: false,
-                isLive: false
+                duration: '10:20',
+                description: 'Markets, economy and business news roundup',
+                featured: false
+            },
+            {
+                id: 'tech-1',
+                name: 'Technology Report',
+                category: 'technology',
+                type: 'youtube',
+                videoId: 'jfKfPfyJRdk',
+                thumbnail: 'https://i.ytimg.com/vi/jfKfPfyJRdk/maxresdefault.jpg',
+                duration: '8:15',
+                description: 'Latest developments in tech and innovation',
+                featured: false
+            },
+            {
+                id: 'world-news-2',
+                name: 'International Report',
+                category: 'world',
+                type: 'youtube',
+                videoId: 'y6120QOlsfU',
+                thumbnail: 'https://i.ytimg.com/vi/y6120QOlsfU/maxresdefault.jpg',
+                duration: '14:00',
+                description: 'International affairs and diplomatic developments',
+                featured: false
+            },
+            {
+                id: 'health-1',
+                name: 'Health News',
+                category: 'health',
+                type: 'youtube',
+                videoId: 'dv13gl0a-FA',
+                thumbnail: 'https://i.ytimg.com/vi/dv13gl0a-FA/maxresdefault.jpg',
+                duration: '9:30',
+                description: 'Medical breakthroughs and health updates',
+                featured: false
+            },
+            {
+                id: 'sports-1',
+                name: 'Sports Highlights',
+                category: 'sports',
+                type: 'youtube',
+                videoId: 'jfKfPfyJRdk',
+                thumbnail: 'https://i.ytimg.com/vi/jfKfPfyJRdk/maxresdefault.jpg',
+                duration: '11:45',
+                description: 'Top sports stories and match highlights',
+                featured: false
+            },
+            {
+                id: 'entertainment-1',
+                name: 'Entertainment News',
+                category: 'entertainment',
+                type: 'youtube',
+                videoId: 'y6120QOlsfU',
+                thumbnail: 'https://i.ytimg.com/vi/y6120QOlsfU/maxresdefault.jpg',
+                duration: '7:20',
+                description: 'Latest from film, music and culture',
+                featured: false
             }
         ],
         es: [

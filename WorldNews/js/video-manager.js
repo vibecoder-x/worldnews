@@ -127,6 +127,7 @@ class VideoManager {
                     <i class="fas fa-circle live-indicator"></i>
                     <span data-i18n="live_now">LIVE NOW</span>
                 </span>` : ''}
+                ${stream.duration ? `<span class="video-duration">${stream.duration}</span>` : ''}
                 <div class="video-player-container" data-stream-id="${stream.id}">
                     <div class="video-placeholder" style="background-image: url('${stream.thumbnail}')">
                         <div class="play-button-overlay">
@@ -137,18 +138,12 @@ class VideoManager {
                         </div>
                     </div>
                 </div>
-
-                <button class="fullscreen-btn" onclick="videoManager.toggleFullscreen('${stream.id}')" title="Fullscreen">
-                    <i class="fas fa-expand"></i>
-                </button>
             </div>
 
             <div class="video-info">
                 <h3 class="video-title">${stream.name}</h3>
+                ${stream.description ? `<p class="video-description">${stream.description}</p>` : ''}
                 <div class="video-meta">
-                    <span class="video-source">
-                        <i class="fab fa-youtube"></i> ${this.getSourceName(stream.type)}
-                    </span>
                     <span class="video-category">
                         <i class="fas fa-tag"></i> ${VIDEO_CONFIG.CATEGORIES[stream.category] || stream.category}
                     </span>

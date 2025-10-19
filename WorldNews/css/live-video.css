@@ -204,24 +204,29 @@
 }
 
 /* ===========================
-   VIDEO CARD
+   VIDEO CARD (BBC-Style)
    =========================== */
 .video-card {
     background: var(--white);
-    border-radius: 12px;
+    border-radius: 0;
     overflow: hidden;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-    transition: all 0.3s ease;
+    box-shadow: none;
+    border-bottom: 1px solid var(--gray-200);
+    transition: all 0.2s ease;
+    cursor: pointer;
 }
 
 .video-card:hover {
-    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
-    transform: translateY(-2px);
+    background: var(--gray-50);
 }
 
 .dark-mode .video-card {
-    background: var(--gray-700);
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+    background: var(--gray-800);
+    border-bottom: 1px solid var(--gray-700);
+}
+
+.dark-mode .video-card:hover {
+    background: var(--gray-750);
 }
 
 /* ===========================
@@ -237,21 +242,36 @@
 /* Live Badge */
 .live-badge {
     position: absolute;
-    top: 12px;
-    left: 12px;
+    top: 8px;
+    left: 8px;
     display: flex;
     align-items: center;
     gap: 0.4rem;
-    padding: 0.4rem 0.8rem;
+    padding: 0.3rem 0.6rem;
     background: rgba(220, 38, 38, 0.95);
     color: var(--white);
-    font-size: 0.85rem;
+    font-size: 0.75rem;
     font-weight: 700;
-    border-radius: 6px;
+    border-radius: 3px;
     z-index: 10;
     text-transform: uppercase;
     letter-spacing: 0.5px;
     animation: pulse 2s ease-in-out infinite;
+}
+
+/* Video Duration Badge (BBC-Style) */
+.video-duration {
+    position: absolute;
+    bottom: 8px;
+    right: 8px;
+    padding: 0.25rem 0.5rem;
+    background: rgba(0, 0, 0, 0.8);
+    color: var(--white);
+    font-size: 0.75rem;
+    font-weight: 600;
+    border-radius: 3px;
+    z-index: 10;
+    font-family: monospace;
 }
 
 .live-indicator {
@@ -387,7 +407,7 @@
 }
 
 .video-title {
-    font-size: 1rem;
+    font-size: 1.05rem;
     font-weight: 600;
     color: var(--gray-900);
     margin: 0 0 0.5rem 0;
@@ -400,6 +420,22 @@
 
 .dark-mode .video-title {
     color: var(--white);
+}
+
+/* Video Description (BBC-Style) */
+.video-description {
+    font-size: 0.9rem;
+    color: var(--gray-600);
+    margin: 0 0 0.75rem 0;
+    line-height: 1.5;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.dark-mode .video-description {
+    color: var(--gray-400);
 }
 
 .video-meta {
