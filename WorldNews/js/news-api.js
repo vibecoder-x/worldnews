@@ -234,8 +234,8 @@ class NewsAPI {
                     content: content,
                     url: article.url,
                     image: this.validateImage(article.urlToImage),
-                    source: article.source?.name || 'Unknown',
-                    author: article.author || article.source?.name || 'Unknown',
+                    source: this.cleanSourceName(article.source?.name || 'Unknown'),
+                    author: this.cleanSourceName(article.author || article.source?.name || 'Unknown'),
                     publishedAt: new Date(article.publishedAt),
                     category: this.extractCategory(article)
                 };
@@ -266,8 +266,8 @@ class NewsAPI {
                     content: content,
                     url: article.url,
                     image: this.validateImage(article.image),
-                    source: article.source?.name || 'Unknown',
-                    author: article.source?.name || 'Unknown',
+                    source: this.cleanSourceName(article.source?.name || 'Unknown'),
+                    author: this.cleanSourceName(article.source?.name || 'Unknown'),
                     publishedAt: new Date(article.publishedAt),
                     category: 'general'
                 };
@@ -296,8 +296,8 @@ class NewsAPI {
                     content: description,
                     url: article.url,
                     image: this.validateImage(article.image),
-                    source: article.author || 'Unknown',
-                    author: article.author || 'Unknown',
+                    source: this.cleanSourceName(article.author || 'Unknown'),
+                    author: this.cleanSourceName(article.author || 'Unknown'),
                     publishedAt: new Date(article.published),
                     category: article.category?.[0] || 'general'
                 };
@@ -326,12 +326,41 @@ class NewsAPI {
                     content: description,
                     url: article.url,
                     image: this.validateImage(article.image),
-                    source: article.source || 'Unknown',
-                    author: article.author || article.source || 'Unknown',
+                    source: this.cleanSourceName(article.source || 'Unknown'),
+                    author: this.cleanSourceName(article.author || article.source || 'Unknown'),
                     publishedAt: new Date(article.published_at),
                     category: article.category || 'general'
                 };
             });
+    }
+
+    // Clean and shorten source name
+    cleanSourceName(sourceName) {
+        if (!sourceName || sourceName === 'Unknown') return 'Unknown';
+
+        // Remove common suffixes and extra descriptions
+        let cleaned = sourceName
+            .replace(/\s*[-–—|:]\s*.*/g, '') // Remove everything after dash, pipe, or colon
+            .replace(/\s*is\s+a\s+.*/gi, '') // Remove "is a..." descriptions
+            .replace(/\s*with\s+.*/gi, '') // Remove "with..." descriptions
+            .replace(/\s*\(.*?\)/g, '') // Remove text in parentheses
+            .replace(/\s+RSS\s+Feed/gi, '') // Remove "RSS Feed"
+            .replace(/\s+News$/gi, '') // Remove trailing "News"
+            .replace(/\s+\.com$/gi, '.com') // Keep .com but remove spaces
+            .trim();
+
+        // Take only first part if still too long (split by common separators)
+        const parts = cleaned.split(/[,;]/);
+        cleaned = parts[0].trim();
+
+        // Capitalize properly
+        if (cleaned.length > 0) {
+            cleaned = cleaned.split(' ')
+                .map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
+                .join(' ');
+        }
+
+        return cleaned || 'Unknown';
     }
 
     // Generate unique ID from URL
