@@ -140,28 +140,36 @@ body {
     z-index: 1000;
 }
 
-/* Unified Header Bar - Menu, Logo, Language all in one row */
+/* Unified Header Bar - Logo (Left), Menu (Center), Controls (Right) */
 .header-unified {
     display: flex;
     justify-content: space-between;
     align-items: center;
     padding: var(--spacing-md) 0;
     border-bottom: 2px solid var(--gray-100);
-    gap: 2rem;
+    gap: 1.5rem;
 }
 
+/* Logo on the left */
+.header-unified .logo {
+    flex-shrink: 0;
+    order: 1;
+}
+
+/* Navigation menu in the center */
 .header-unified .main-nav {
     flex: 1;
     padding: 0;
     border: none;
+    order: 2;
+    display: flex;
+    justify-content: center;
 }
 
-.header-unified .logo {
-    flex-shrink: 0;
-}
-
+/* Controls on the right */
 .header-unified .header-controls {
     flex-shrink: 0;
+    order: 3;
 }
 
 .header-top {
