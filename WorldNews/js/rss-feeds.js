@@ -168,27 +168,66 @@ class RSSFeedManager {
         return allArticles;
     }
 
-    // Combine RSS feeds with API results
+    // Combine RSS feeds with API results for richer content
     async getCombinedNews(category = 'general', language = 'en', page = 1, pageSize = 12) {
-        try {
-            // Try to fetch from API first
-            const apiArticles = await newsAPI.fetchNews(category, language, page, pageSize);
+        const allArticles = [];
 
-            // If API succeeds, return those articles
-            if (apiArticles && apiArticles.length > 0) {
-                return apiArticles;
-            }
+        try {
+            // Fetch from multiple APIs in parallel for diversity
+            const apiPromises = [
+                newsAPI.fetchFromNewsAPI(category, language, page, Math.ceil(pageSize / 2)).catch(() => []),
+                newsAPI.fetchFromGNews(category, language, page, Math.ceil(pageSize / 2)).catch(() => []),
+            ];
+
+            const apiResults = await Promise.all(apiPromises);
+            apiResults.forEach(articles => {
+                if (articles && articles.length > 0) {
+                    allArticles.push(...articles);
+                }
+            });
+
+            console.log(`✅ Fetched ${allArticles.length} articles from APIs`);
         } catch (error) {
-            console.warn('API failed, falling back to RSS feeds');
+            console.warn('API failed:', error);
         }
 
-        // Fallback to RSS feeds
-        const rssArticles = await this.fetchLanguageFeeds(language, category);
+        // Also fetch RSS feeds for even more diversity
+        try {
+            const rssArticles = await this.fetchLanguageFeeds(language, category);
+            if (rssArticles && rssArticles.length > 0) {
+                allArticles.push(...rssArticles.slice(0, Math.ceil(pageSize / 3)));
+                console.log(`✅ Added ${Math.min(rssArticles.length, Math.ceil(pageSize / 3))} RSS articles`);
+            }
+        } catch (error) {
+            console.warn('RSS failed:', error);
+        }
 
-        // Paginate RSS results
-        const start = (page - 1) * pageSize;
-        const end = start + pageSize;
-        return rssArticles.slice(start, end);
+        // Remove duplicates based on title similarity and URL
+        const uniqueArticles = this.removeDuplicates(allArticles);
+
+        // Sort by date (newest first)
+        uniqueArticles.sort((a, b) => new Date(b.publishedAt) - new Date(a.publishedAt));
+
+        // Return paginated results
+        return uniqueArticles.slice(0, pageSize);
+    }
+
+    // Remove duplicate articles
+    removeDuplicates(articles) {
+        const seen = new Set();
+        const unique = [];
+
+        articles.forEach(article => {
+            // Create a unique key from URL and title
+            const key = article.url || article.title.toLowerCase().replace(/\s+/g, '');
+
+            if (!seen.has(key)) {
+                seen.add(key);
+                unique.push(article);
+            }
+        });
+
+        return unique;
     }
 }
 

@@ -208,7 +208,7 @@ class WorldNewsApp {
         }
 
         card.innerHTML = `
-            <img src="${article.image}" alt="${article.title}" loading="lazy" onerror="this.src='${newsAPI.getPlaceholderImage()}'">
+            <img src="${article.image}" alt="${article.title}" loading="lazy" onerror="this.src='${newsAPI.getPlaceholderImage(article.category)}'">
             <div class="article-content">
                 <div class="article-meta">
                     <span class="article-source">
@@ -281,7 +281,7 @@ class WorldNewsApp {
             featuredCard.className = 'featured-article';
 
             featuredCard.innerHTML = `
-                <img src="${article.image}" alt="${article.title}" onerror="this.src='${newsAPI.getPlaceholderImage()}'">
+                <img src="${article.image}" alt="${article.title}" onerror="this.src='${newsAPI.getPlaceholderImage(article.category)}'">
                 <div class="featured-article-content">
                     <h3>${article.title}</h3>
                     <p>${article.description.substring(0, 120)}...</p>
@@ -345,7 +345,7 @@ class WorldNewsApp {
         content.innerHTML = `
             <article class="modal-article">
                 <div class="modal-article-header">
-                    <img src="${article.image}" alt="${article.title}" class="modal-article-image" onerror="this.src='${newsAPI.getPlaceholderImage()}'">
+                    <img src="${article.image}" alt="${article.title}" class="modal-article-image" onerror="this.src='${newsAPI.getPlaceholderImage(article.category)}'">
                     <div class="modal-article-category-badge">${article.category || 'News'}</div>
                 </div>
 

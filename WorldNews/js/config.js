@@ -60,10 +60,10 @@ const CONFIG = {
     // Default Settings
     DEFAULTS: {
         language: 'en',
-        articlesPerPage: 12,
-        autoRefreshInterval: 1800000, // 30 minutes in milliseconds
+        articlesPerPage: 24, // Increased to show more content
+        autoRefreshInterval: 600000, // 10 minutes - more frequent updates
         defaultCategory: 'all',
-        maxArticlesCache: 100,
+        maxArticlesCache: 200, // Increased cache size
         readingWordsPerMinute: 200,
     },
 

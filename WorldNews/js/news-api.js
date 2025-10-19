@@ -6,7 +6,7 @@
 class NewsAPI {
     constructor() {
         this.cache = new Map();
-        this.cacheExpiry = 15 * 60 * 1000; // 15 minutes
+        this.cacheExpiry = 5 * 60 * 1000; // 5 minutes - shorter for fresher content
         this.currentApiIndex = 0;
         this.apis = ['newsapi', 'gnews', 'currentsapi'];
     }
@@ -266,9 +266,23 @@ class NewsAPI {
         }
     }
 
-    // Get placeholder image
-    getPlaceholderImage() {
-        return 'data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" width="400" height="300"%3E%3Cdefs%3E%3ClinearGradient id="grad" x1="0%25" y1="0%25" x2="100%25" y2="100%25"%3E%3Cstop offset="0%25" style="stop-color:%233b82f6;stop-opacity:1" /%3E%3Cstop offset="100%25" style="stop-color:%232563eb;stop-opacity:1" /%3E%3C/linearGradient%3E%3C/defs%3E%3Crect fill="url(%23grad)" width="400" height="300"/%3E%3Ctext fill="white" x="50%25" y="45%25" text-anchor="middle" font-family="Arial,sans-serif" font-size="24" font-weight="bold"%3EWorldNews%3C/text%3E%3Ctext fill="white" x="50%25" y="60%25" text-anchor="middle" font-family="Arial,sans-serif" font-size="16" opacity="0.8"%3EImage Unavailable%3C/text%3E%3C/svg%3E';
+    // Get placeholder image with variety
+    getPlaceholderImage(category = 'general') {
+        const gradients = {
+            world: '%233b82f6,%232563eb',
+            politics: '%23ef4444,%23dc2626',
+            business: '%2310b981,%23059669',
+            technology: '%238b5cf6,%237c3aed',
+            health: '%23f59e0b,%23d97706',
+            sports: '%2306b6d4,%230891b2',
+            entertainment: '%23ec4899,%23db2777',
+            general: '%233b82f6,%232563eb'
+        };
+
+        const colors = gradients[category] || gradients.general;
+        const [color1, color2] = colors.split(',');
+
+        return `data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" width="400" height="300"%3E%3Cdefs%3E%3ClinearGradient id="grad" x1="0%25" y1="0%25" x2="100%25" y2="100%25"%3E%3Cstop offset="0%25" style="stop-color:${color1};stop-opacity:1" /%3E%3Cstop offset="100%25" style="stop-color:${color2};stop-opacity:1" /%3E%3C/linearGradient%3E%3C/defs%3E%3Crect fill="url(%23grad)" width="400" height="300"/%3E%3Ctext fill="white" x="50%25" y="45%25" text-anchor="middle" font-family="Arial,sans-serif" font-size="24" font-weight="bold"%3EWorldNews%3C/text%3E%3Ctext fill="white" x="50%25" y="55%25" text-anchor="middle" font-family="Arial,sans-serif" font-size="14" opacity="0.9" text-transform="capitalize"%3E${category}%3C/text%3E%3C/svg%3E`;
     }
 
     // Cache management
