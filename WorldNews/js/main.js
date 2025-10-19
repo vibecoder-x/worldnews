@@ -519,12 +519,16 @@ class WorldNewsApp {
         });
     }
 
-    // Auto refresh news
+    // Auto refresh news every 30 minutes
     startAutoRefresh() {
         this.autoRefreshTimer = setInterval(() => {
-            console.log('Auto-refreshing news...');
+            console.log('Auto-refreshing news every 30 minutes...');
             this.showRefreshNotification();
+
+            // Clear all caches for fresh content
             newsAPI.clearCache();
+            rssFeedManager.combinedCache.clear();
+
             this.currentPage = 1;
             this.loadNews();
             this.loadFeaturedNews();
@@ -654,7 +658,10 @@ function manualRefresh() {
     const btn = document.querySelector('.refresh-btn');
     btn.classList.add('refreshing');
 
+    // Clear all caches for fresh content
     newsAPI.clearCache();
+    rssFeedManager.combinedCache.clear();
+
     app.currentPage = 1;
     app.loadNews();
     app.loadFeaturedNews();

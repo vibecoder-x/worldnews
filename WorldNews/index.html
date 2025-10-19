@@ -26,7 +26,6 @@
     <link rel="stylesheet" href="css/dark-mode.css">
     <link rel="stylesheet" href="css/responsive.css">
     <link rel="stylesheet" href="css/geolocation.css">
-    <link rel="stylesheet" href="css/live-video.css">
 
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -114,56 +113,6 @@
     <main class="main-content">
         <div class="container">
             <div class="content-wrapper">
-                <!-- Video Section -->
-                <section class="live-video-section">
-                    <div class="section-header">
-                        <h2>
-                            <i class="fas fa-video"></i>
-                            <span data-i18n="video_section">Video</span>
-                        </h2>
-                        <div class="video-controls">
-                            <!-- Category Filter -->
-                            <div class="video-category-filter">
-                                <button class="video-category-btn active" data-category="all">
-                                    <span data-i18n="all">All</span>
-                                </button>
-                                <button class="video-category-btn" data-category="news">
-                                    <span data-i18n="nav_news">News</span>
-                                </button>
-                                <button class="video-category-btn" data-category="business">
-                                    <span data-i18n="nav_business">Business</span>
-                                </button>
-                                <button class="video-category-btn" data-category="sports">
-                                    <span data-i18n="nav_sports">Sports</span>
-                                </button>
-                            </div>
-
-                            <!-- Layout Switcher -->
-                            <div class="video-layout-switcher">
-                                <button class="video-layout-btn" data-layout="single" title="Single Featured">
-                                    <i class="fas fa-square"></i>
-                                </button>
-                                <button class="video-layout-btn active" data-layout="grid" title="Grid View">
-                                    <i class="fas fa-th"></i>
-                                </button>
-                                <button class="video-layout-btn" data-layout="carousel" title="Carousel">
-                                    <i class="fas fa-grip-horizontal"></i>
-                                </button>
-                            </div>
-
-                            <!-- Refresh Button -->
-                            <button class="video-refresh-btn" onclick="videoManager.refreshStreams()" title="Refresh Streams">
-                                <i class="fas fa-sync-alt"></i>
-                            </button>
-                        </div>
-                    </div>
-
-                    <!-- Video Grid -->
-                    <div id="live-video-grid" class="video-grid video-grid-grid">
-                        <!-- Video cards will be loaded here -->
-                    </div>
-                </section>
-
                 <!-- Featured Articles Carousel -->
                 <section class="featured-section">
                     <h2 data-i18n="featured_news">Featured News</h2>
@@ -342,8 +291,6 @@
     <script src="js/i18n.js"></script>
     <script src="js/news-api.js"></script>
     <script src="js/rss-feeds.js"></script>
-    <script src="js/video-config.js"></script>
-    <script src="js/video-manager.js"></script>
     <script src="js/main.js"></script>
     <script src="js/dark-mode.js"></script>
 

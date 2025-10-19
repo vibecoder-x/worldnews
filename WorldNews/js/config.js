@@ -76,7 +76,7 @@ const CONFIG = {
     DEFAULTS: {
         language: 'en',
         articlesPerPage: 50, // Show 50 articles per page for rich content
-        autoRefreshInterval: 300000, // 5 minutes - very frequent updates
+        autoRefreshInterval: 1800000, // 30 minutes - automatic refresh
         defaultCategory: 'all',
         maxArticlesCache: 10000, // Cache up to 10,000 articles
         readingWordsPerMinute: 200,
