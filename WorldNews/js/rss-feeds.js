@@ -7,6 +7,8 @@ class RSSFeedManager {
     constructor() {
         this.feeds = [];
         this.parser = new DOMParser();
+        this.combinedCache = new Map();
+        this.cacheExpiry = 5 * 60 * 1000; // 5 minutes cache for combined results
     }
 
     // Fetch and parse RSS feed (via serverless function)
@@ -170,17 +172,39 @@ class RSSFeedManager {
         return allArticles;
     }
 
-    // Combine RSS feeds with API results for richer content
-    async getCombinedNews(category = 'general', language = 'en', page = 1, pageSize = 12) {
+    // Combine RSS feeds with API results for MASSIVE content
+    async getCombinedNews(category = 'general', language = 'en', page = 1, pageSize = 50) {
+        const cacheKey = `combined_${category}_${language}`;
+
+        // Check cache for the full dataset (not per page)
+        const cached = this.combinedCache.get(cacheKey);
+        if (cached && Date.now() - cached.timestamp < this.cacheExpiry) {
+            console.log(`📦 Using cached articles (${cached.articles.length} total)`);
+            const uniqueArticles = cached.articles;
+
+            // Return paginated results from cache
+            if (page === 1) {
+                return uniqueArticles.slice(0, 500);
+            } else {
+                const start = 500 + ((page - 2) * pageSize);
+                const end = start + pageSize;
+                return uniqueArticles.slice(start, end);
+            }
+        }
+
+        // Cache miss - fetch fresh data
         const allArticles = [];
 
         try {
-            // Fetch MORE from multiple APIs in parallel for diversity
-            const apiPromises = [
-                newsAPI.fetchFromNewsAPI(category, language, page, pageSize).catch(() => []),
-                newsAPI.fetchFromGNews(category, language, page, pageSize).catch(() => []),
-                newsAPI.fetchFromCurrentsAPI(category, language, page, pageSize).catch(() => []),
-            ];
+            // Fetch MAXIMUM from ALL APIs - multiple pages in parallel
+            const apiPromises = [];
+
+            // Fetch 5 pages from each API for massive content (100 articles per API)
+            for (let p = 1; p <= 5; p++) {
+                apiPromises.push(newsAPI.fetchFromNewsAPI(category, language, p, 100).catch(() => []));
+                apiPromises.push(newsAPI.fetchFromGNews(category, language, p, 100).catch(() => []));
+                apiPromises.push(newsAPI.fetchFromCurrentsAPI(category, language, p, 100).catch(() => []));
+            }
 
             const apiResults = await Promise.all(apiPromises);
             apiResults.forEach(articles => {
@@ -189,17 +213,17 @@ class RSSFeedManager {
                 }
             });
 
-            console.log(`✅ Fetched ${allArticles.length} articles from APIs`);
+            console.log(`✅ Fetched ${allArticles.length} articles from APIs (multiple pages)`);
         } catch (error) {
             console.warn('API failed:', error);
         }
 
-        // Also fetch RSS feeds for even more diversity
+        // Fetch ALL RSS feeds for maximum diversity
         try {
             const rssArticles = await this.fetchLanguageFeeds(language, category);
             if (rssArticles && rssArticles.length > 0) {
-                allArticles.push(...rssArticles.slice(0, pageSize));
-                console.log(`✅ Added ${Math.min(rssArticles.length, pageSize)} RSS articles`);
+                allArticles.push(...rssArticles); // Add ALL RSS articles
+                console.log(`✅ Added ${rssArticles.length} RSS articles`);
             }
         } catch (error) {
             console.warn('RSS failed:', error);
@@ -211,10 +235,29 @@ class RSSFeedManager {
         // Sort by date (newest first)
         uniqueArticles.sort((a, b) => new Date(b.publishedAt) - new Date(a.publishedAt));
 
-        console.log(`📰 Total unique articles: ${uniqueArticles.length}`);
+        console.log(`📰 Total unique articles available: ${uniqueArticles.length}`);
 
-        // Return paginated results - take more articles
-        return uniqueArticles.slice(0, pageSize * 2); // Double the results
+        // Cache the full dataset for 5 minutes
+        this.combinedCache.set(cacheKey, {
+            articles: uniqueArticles,
+            timestamp: Date.now()
+        });
+
+        // Clean old cache entries (keep only last 20 categories/languages)
+        if (this.combinedCache.size > 20) {
+            const firstKey = this.combinedCache.keys().next().value;
+            this.combinedCache.delete(firstKey);
+        }
+
+        // For first page, return massive amount; for subsequent pages, paginate from where page 1 left off
+        if (page === 1) {
+            return uniqueArticles.slice(0, 500); // First load: 500 articles!
+        } else {
+            // Page 2 starts at 500, page 3 at 550, page 4 at 600, etc.
+            const start = 500 + ((page - 2) * pageSize);
+            const end = start + pageSize;
+            return uniqueArticles.slice(start, end); // Subsequent loads: paginated
+        }
     }
 
     // Remove duplicate articles
