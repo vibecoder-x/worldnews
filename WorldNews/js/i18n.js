@@ -10,24 +10,10 @@ class I18n {
         this.init();
     }
 
-    // Detect browser language
+    // Detect browser language - English only
     detectLanguage() {
-        const browserLang = navigator.language || navigator.userLanguage;
-        const langCode = browserLang.split('-')[0];
-
-        // Check if we support this language
-        if (CONFIG.LANGUAGES[langCode]) {
-            return langCode;
-        }
-
-        // Check localStorage
-        const savedLang = localStorage.getItem('worldnews_language');
-        if (savedLang && CONFIG.LANGUAGES[savedLang]) {
-            return savedLang;
-        }
-
-        // Default to English
-        return CONFIG.DEFAULTS.language;
+        // Always return English
+        return 'en';
     }
 
     // Initialize i18n

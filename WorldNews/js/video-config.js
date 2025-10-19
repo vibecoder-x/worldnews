@@ -4,7 +4,7 @@
    =========================== */
 
 const VIDEO_CONFIG = {
-    // News video sources by language (BBC-style news videos)
+    // News video sources (BBC-style news videos)
     LIVE_STREAMS: {
         en: [
             {
@@ -94,78 +94,6 @@ const VIDEO_CONFIG = {
                 duration: '7:20',
                 description: 'Latest from film, music and culture',
                 featured: false
-            }
-        ],
-        es: [
-            {
-                id: 'news-es-1',
-                name: 'Noticias Principales',
-                category: 'news',
-                type: 'youtube',
-                videoId: 'jfKfPfyJRdk',
-                thumbnail: 'https://i.ytimg.com/vi/jfKfPfyJRdk/maxresdefault.jpg',
-                featured: true,
-                isLive: false
-            }
-        ],
-        fr: [
-            {
-                id: 'news-fr-1',
-                name: 'Actualités Principales',
-                category: 'news',
-                type: 'youtube',
-                videoId: 'y6120QOlsfU',
-                thumbnail: 'https://i.ytimg.com/vi/y6120QOlsfU/maxresdefault.jpg',
-                featured: true,
-                isLive: false
-            }
-        ],
-        de: [
-            {
-                id: 'news-de-1',
-                name: 'Hauptnachrichten',
-                category: 'news',
-                type: 'youtube',
-                videoId: 'dv13gl0a-FA',
-                thumbnail: 'https://i.ytimg.com/vi/dv13gl0a-FA/maxresdefault.jpg',
-                featured: true,
-                isLive: false
-            }
-        ],
-        ar: [
-            {
-                id: 'news-ar-1',
-                name: 'أخبار رئيسية',
-                category: 'news',
-                type: 'youtube',
-                videoId: 'jfKfPfyJRdk',
-                thumbnail: 'https://i.ytimg.com/vi/jfKfPfyJRdk/maxresdefault.jpg',
-                featured: true,
-                isLive: false
-            }
-        ],
-        zh: [
-            {
-                id: 'news-zh-1',
-                name: '头条新闻',
-                category: 'news',
-                type: 'youtube',
-                videoId: 'y6120QOlsfU',
-                thumbnail: 'https://i.ytimg.com/vi/y6120QOlsfU/maxresdefault.jpg',
-                featured: true,
-                isLive: false
-            }
-        ],
-        hi: [
-            {
-                id: 'news-hi-1',
-                name: 'मुख्य समाचार',
-                category: 'news',
-                type: 'youtube',
-                videoId: 'dv13gl0a-FA',
-                thumbnail: 'https://i.ytimg.com/vi/dv13gl0a-FA/maxresdefault.jpg',
-                featured: true,
-                isLive: false
             }
         ]
     },

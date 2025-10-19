@@ -20,7 +20,7 @@ const CONFIG = {
         mediastack: 'http://api.mediastack.com/v1',
     },
 
-    // RSS Feeds by Language - MASSIVE CONTENT STRATEGY
+    // RSS Feeds - English Only
     RSS_FEEDS: {
         en: [
             // World News
@@ -69,43 +69,6 @@ const CONFIG = {
             { name: 'Politico', url: 'https://www.politico.com/rss/politics08.xml', category: 'politics' },
             { name: 'The Hill', url: 'https://thehill.com/feed/', category: 'politics' },
             { name: 'Reuters Politics', url: 'https://www.reutersagency.com/feed/?best-topics=political-general', category: 'politics' },
-        ],
-        es: [
-            { name: 'BBC Mundo', url: 'https://feeds.bbci.co.uk/mundo/rss.xml', category: 'world' },
-            { name: 'CNN Español', url: 'https://cnnespanol.cnn.com/feed/', category: 'world' },
-            { name: 'El País', url: 'https://feeds.elpais.com/mrss-s/pages/ep/site/elpais.com/portada', category: 'world' },
-            { name: 'El Mundo', url: 'https://e00-elmundo.uecdn.es/elmundo/rss/portada.xml', category: 'world' },
-        ],
-        fr: [
-            { name: 'BBC Afrique', url: 'https://feeds.bbci.co.uk/afrique/rss.xml', category: 'world' },
-            { name: 'France 24', url: 'https://www.france24.com/en/rss', category: 'world' },
-            { name: 'Le Monde', url: 'https://www.lemonde.fr/rss/une.xml', category: 'world' },
-            { name: 'Le Figaro', url: 'https://www.lefigaro.fr/rss/figaro_actualites.xml', category: 'world' },
-        ],
-        de: [
-            { name: 'Deutsche Welle', url: 'https://rss.dw.com/xml/rss-de-all', category: 'world' },
-            { name: 'Spiegel Online', url: 'https://www.spiegel.de/index.rss', category: 'world' },
-            { name: 'Die Zeit', url: 'https://www.zeit.de/index', category: 'world' },
-        ],
-        ar: [
-            { name: 'Al Jazeera Arabic', url: 'https://www.aljazeera.com/xml/rss/all.xml', category: 'world' },
-            { name: 'BBC Arabic', url: 'https://feeds.bbci.co.uk/arabic/rss.xml', category: 'world' },
-            { name: 'Al Arabiya', url: 'https://www.alarabiya.net/rss.xml', category: 'world' },
-        ],
-        zh: [
-            { name: 'Xinhua News', url: 'http://www.xinhuanet.com/english/rss/worldrss.xml', category: 'world' },
-            { name: 'China Daily', url: 'http://www.chinadaily.com.cn/rss/world_rss.xml', category: 'world' },
-            { name: 'CCTV News', url: 'http://english.cctv.com/rss/china.xml', category: 'world' },
-        ],
-        hi: [
-            { name: 'NDTV India', url: 'https://feeds.feedburner.com/ndtvnews-india-news', category: 'world' },
-            { name: 'Times of India', url: 'https://timesofindia.indiatimes.com/rssfeedstopstories.cms', category: 'world' },
-            { name: 'The Hindu', url: 'https://www.thehindu.com/news/national/feeder/default.rss', category: 'world' },
-            { name: 'India Today', url: 'https://www.indiatoday.in/rss/home', category: 'world' },
-            { name: 'Economic Times', url: 'https://economictimes.indiatimes.com/rssfeedstopstories.cms', category: 'business' },
-            { name: 'Indian Express', url: 'https://indianexpress.com/feed/', category: 'world' },
-            { name: 'Hindustan Times', url: 'https://www.hindustantimes.com/feeds/rss/india-news/rssfeed.xml', category: 'world' },
-            { name: 'NDTV Business', url: 'https://feeds.feedburner.com/ndtvprofit-latest', category: 'business' },
         ]
     },
 
@@ -134,24 +97,12 @@ const CONFIG = {
 
     // Language Codes
     LANGUAGES: {
-        en: { name: 'English', code: 'en', dir: 'ltr' },
-        es: { name: 'Español', code: 'es', dir: 'ltr' },
-        fr: { name: 'Français', code: 'fr', dir: 'ltr' },
-        de: { name: 'Deutsch', code: 'de', dir: 'ltr' },
-        ar: { name: 'العربية', code: 'ar', dir: 'rtl' },
-        zh: { name: '中文', code: 'zh', dir: 'ltr' },
-        hi: { name: 'हिंदी', code: 'hi', dir: 'ltr' }
+        en: { name: 'English', code: 'en', dir: 'ltr' }
     },
 
     // Country Codes for API
     COUNTRY_CODES: {
-        en: 'us',
-        es: 'es',
-        fr: 'fr',
-        de: 'de',
-        ar: 'ae',
-        zh: 'cn',
-        hi: 'in'
+        en: 'us'
     },
 
     // Social Share URLs
