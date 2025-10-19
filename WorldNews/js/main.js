@@ -100,15 +100,29 @@ class WorldNewsApp {
                 CONFIG.DEFAULTS.articlesPerPage
             );
 
+            // Filter out articles older than 7 days
+            const sevenDaysAgo = new Date();
+            sevenDaysAgo.setDate(sevenDaysAgo.getDate() - 7);
+            const freshArticles = articles.filter(article => {
+                const articleDate = new Date(article.publishedAt);
+                return articleDate >= sevenDaysAgo;
+            });
+
             if (this.currentPage === 1) {
                 // Replace all articles on first page/refresh
-                this.articles = articles;
+                this.articles = freshArticles;
             } else {
                 // When loading more, remove duplicates before adding
                 const existingIds = new Set(this.articles.map(a => a.id));
-                const newArticles = articles.filter(a => !existingIds.has(a.id));
+                const newArticles = freshArticles.filter(a => !existingIds.has(a.id));
                 this.articles = [...this.articles, ...newArticles];
             }
+
+            // Also clean existing articles - remove any older than 7 days
+            this.articles = this.articles.filter(article => {
+                const articleDate = new Date(article.publishedAt);
+                return articleDate >= sevenDaysAgo;
+            });
 
             this.renderArticles();
 
@@ -176,8 +190,8 @@ class WorldNewsApp {
         const timeAgo = i18n.formatTime(article.publishedAt);
         const readTime = newsAPI.calculateReadingTime(article.content || article.description);
 
-        // Truncate description smartly (end at sentence if possible)
-        const maxLength = 200;
+        // Show up to 1500 characters with smart truncation
+        const maxLength = 1500;
         let description = article.description || '';
         if (description.length > maxLength) {
             const truncated = description.substring(0, maxLength);
@@ -384,14 +398,6 @@ class WorldNewsApp {
                             <span class="share-label">Share:</span>
                             ${this.createShareButtons(article)}
                         </div>
-                    </div>
-
-                    <div class="modal-article-footer">
-                        <p class="source-note">
-                            <i class="fas fa-info-circle"></i>
-                            This article is aggregated from <strong>${article.source}</strong>.
-                            Click "Read Full Article at Source" for the complete story with images and multimedia content.
-                        </p>
                     </div>
                 </div>
             </article>

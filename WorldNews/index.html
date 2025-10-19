@@ -67,35 +67,6 @@
                 </div>
 
                 <div class="header-controls">
-                    <!-- Location Indicator -->
-                    <div class="location-indicator" onclick="toggleLocationMenu()">
-                        <i class="fas fa-map-marker-alt"></i>
-                        <span id="location-display">Detecting...</span>
-                        <i class="fas fa-chevron-down"></i>
-                    </div>
-
-                    <!-- Location Menu Dropdown -->
-                    <div id="location-menu" class="location-menu hidden">
-                        <div class="location-info">
-                            <p class="location-coords" id="location-coords">Loading...</p>
-                            <p class="location-accuracy" id="location-accuracy"></p>
-                        </div>
-                        <div class="location-actions">
-                            <button onclick="refreshLocation()">
-                                <i class="fas fa-crosshairs"></i> Refresh Location
-                            </button>
-                            <button onclick="saveCurrentLocation()">
-                                <i class="fas fa-bookmark"></i> Save Location
-                            </button>
-                            <button onclick="toggleLocationSettings()">
-                                <i class="fas fa-cog"></i> Settings
-                            </button>
-                        </div>
-                        <div id="saved-locations" class="saved-locations">
-                            <!-- Saved locations will be loaded here -->
-                        </div>
-                    </div>
-
                     <!-- Manual Refresh Button -->
                     <button class="refresh-btn" onclick="manualRefresh()" title="Refresh news">
                         <i class="fas fa-sync-alt"></i>
@@ -117,12 +88,6 @@
                             <a href="#" onclick="changeLanguage('zh')" data-lang="zh">中文</a>
                             <a href="#" onclick="changeLanguage('hi')" data-lang="hi">हिंदी</a>
                         </div>
-                    </div>
-
-                    <!-- Font Size Adjuster -->
-                    <div class="font-size-controls">
-                        <button onclick="adjustFontSize('decrease')" title="Decrease font size">A-</button>
-                        <button onclick="adjustFontSize('increase')" title="Increase font size">A+</button>
                     </div>
 
                     <!-- Dark Mode Toggle -->
@@ -226,33 +191,6 @@
 
                     <!-- Sidebar -->
                     <aside class="sidebar">
-                        <!-- Nearby News Widget -->
-                        <section class="nearby-news-section">
-                            <h3>
-                                <i class="fas fa-map-marker-alt"></i>
-                                <span data-i18n="nearby_news">Nearby News</span>
-                            </h3>
-                            <div class="radius-control">
-                                <label>
-                                    <i class="fas fa-search-location"></i>
-                                    <span data-i18n="search_radius">Radius:</span>
-                                    <select id="radius-selector" onchange="changeRadius(this.value)">
-                                        <option value="25">25 km</option>
-                                        <option value="50">50 km</option>
-                                        <option value="100" selected>100 km</option>
-                                        <option value="200">200 km</option>
-                                        <option value="500">500 km</option>
-                                    </select>
-                                </label>
-                            </div>
-                            <div id="nearby-news" class="nearby-news-list">
-                                <div class="loading-local">
-                                    <i class="fas fa-spinner fa-spin"></i>
-                                    <span data-i18n="loading_local">Detecting location...</span>
-                                </div>
-                            </div>
-                        </section>
-
                         <!-- AdSense Sidebar Ad -->
                         <div class="ad-container ad-sidebar">
                             <ins class="adsbygoogle"
