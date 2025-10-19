@@ -18,17 +18,6 @@ class WorldNewsApp {
 
     // Initialize application
     async init() {
-        // Get initial category and language from router
-        if (window.router) {
-            this.currentCategory = router.getCategory();
-            const language = router.getLanguage();
-
-            // Set language before loading news
-            if (window.i18n) {
-                i18n.setLanguage(language);
-            }
-        }
-
         this.setupEventListeners();
         this.startAutoRefresh();
         await this.loadInitialNews();
@@ -37,21 +26,13 @@ class WorldNewsApp {
 
     // Setup event listeners
     setupEventListeners() {
-        // Navigation category clicks - use router for URL navigation
+        // Navigation category clicks
         document.querySelectorAll('.main-nav a[data-category]').forEach(link => {
             link.addEventListener('click', (e) => {
                 e.preventDefault();
                 const category = e.target.getAttribute('data-category');
-
-                // Use router to navigate (updates URL and loads content)
-                if (window.router) {
-                    const currentLang = window.i18n ? i18n.getCurrentLanguage() : 'en';
-                    router.navigate(category, currentLang);
-                } else {
-                    // Fallback if router not available
-                    this.changeCategory(category);
-                    this.updateActiveNavLink(e.target);
-                }
+                this.changeCategory(category);
+                this.updateActiveNavLink(e.target);
             });
         });
 
@@ -152,24 +133,18 @@ class WorldNewsApp {
     async loadFeaturedNews() {
         try {
             const language = i18n.getCurrentLanguage();
-            const category = this.mapCategory(this.currentCategory);
 
-            // Use combined RSS + API for maximum availability with images
-            // Fetch 100 articles to ensure we have plenty with images
-            const featured = await rssFeedManager.getCombinedNews(category, language, 1, 100);
+            // Always use 'general' for featured to ensure content
+            const featured = await rssFeedManager.getCombinedNews('general', language, 1, 100);
 
-            // Take first 10 articles with images for featured carousel
-            const featuredWithImages = featured.slice(0, 10);
-            this.renderFeaturedCarousel(featuredWithImages);
+            if (featured && featured.length > 0) {
+                // Take first 10 articles with images for featured carousel
+                this.renderFeaturedCarousel(featured.slice(0, 10));
+            } else {
+                console.warn('No featured articles found');
+            }
         } catch (error) {
             console.error('Error loading featured news:', error);
-            // Fallback: try with 'all' category if current category fails
-            try {
-                const featured = await rssFeedManager.getCombinedNews('all', language, 1, 100);
-                this.renderFeaturedCarousel(featured.slice(0, 10));
-            } catch (fallbackError) {
-                console.error('Fallback featured news also failed:', fallbackError);
-            }
         }
     }
 
@@ -177,24 +152,18 @@ class WorldNewsApp {
     async loadTrendingNews() {
         try {
             const language = i18n.getCurrentLanguage();
-            const category = this.mapCategory(this.currentCategory);
 
-            // Use combined RSS + API for maximum availability with images
-            // Fetch 100 articles to ensure we have plenty with images
-            const trending = await rssFeedManager.getCombinedNews(category, language, 1, 100);
+            // Always use 'general' for trending to ensure content
+            const trending = await rssFeedManager.getCombinedNews('general', language, 1, 100);
 
-            // Take first 10 articles with images for trending
-            const trendingWithImages = trending.slice(0, 10);
-            this.renderTrendingNews(trendingWithImages);
+            if (trending && trending.length > 0) {
+                // Take first 10 articles with images for trending
+                this.renderTrendingNews(trending.slice(0, 10));
+            } else {
+                console.warn('No trending articles found');
+            }
         } catch (error) {
             console.error('Error loading trending news:', error);
-            // Fallback: try with 'all' category if current category fails
-            try {
-                const trending = await rssFeedManager.getCombinedNews('all', language, 1, 100);
-                this.renderTrendingNews(trending.slice(0, 10));
-            } catch (fallbackError) {
-                console.error('Fallback trending news also failed:', fallbackError);
-            }
         }
     }
 
@@ -453,7 +422,19 @@ class WorldNewsApp {
         this.currentCategory = category;
         this.currentPage = 1;
         this.articles = [];
+
+        // Clear caches for fresh content
+        if (window.newsAPI) {
+            newsAPI.clearCache();
+        }
+        if (window.rssFeedManager && rssFeedManager.combinedCache) {
+            rssFeedManager.combinedCache.clear();
+        }
+
+        // Reload all sections
         this.loadNews();
+        this.loadFeaturedNews();
+        this.loadTrendingNews();
     }
 
     // Map category names

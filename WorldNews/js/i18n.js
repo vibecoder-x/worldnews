@@ -180,14 +180,7 @@ const i18n = new I18n();
 
 // Global functions for easy access
 function changeLanguage(lang) {
-    // Use router to navigate with new language
-    if (window.router && window.app) {
-        const currentCategory = app.currentCategory || router.getCategory();
-        router.navigate(currentCategory, lang);
-    } else {
-        // Fallback if router not available
-        i18n.changeLanguage(lang);
-    }
+    i18n.changeLanguage(lang);
     toggleLanguageDropdown(); // Close dropdown after selection
 }
 
