@@ -213,10 +213,12 @@ class NewsAPI {
     normalizeNewsAPIData(articles) {
         return articles
             .filter(article => {
-                // Only filter out removed articles, keep all others
+                // Filter out removed articles and articles without images
                 return article.title &&
                        article.title !== '[Removed]' &&
-                       article.url;
+                       article.url &&
+                       article.urlToImage &&
+                       this.hasValidImage(article.urlToImage);
             })
             .map(article => {
                 // Clean content - remove [+chars] indicators
@@ -244,8 +246,11 @@ class NewsAPI {
     normalizeGNewsData(articles) {
         return articles
             .filter(article => {
-                // Only filter out articles without title/URL
-                return article.title && article.url;
+                // Filter out articles without title/URL/image
+                return article.title &&
+                       article.url &&
+                       article.image &&
+                       this.hasValidImage(article.image);
             })
             .map(article => {
                 // Clean content - remove [+chars] indicators
@@ -273,8 +278,11 @@ class NewsAPI {
     normalizeCurrentsAPIData(articles) {
         return articles
             .filter(article => {
-                // Only filter out articles without title/URL
-                return article.title && article.url;
+                // Filter out articles without title/URL/image
+                return article.title &&
+                       article.url &&
+                       article.image &&
+                       this.hasValidImage(article.image);
             })
             .map(article => {
                 // Clean content - remove [+chars] indicators
@@ -300,8 +308,11 @@ class NewsAPI {
     normalizeMediastackData(articles) {
         return articles
             .filter(article => {
-                // Only filter out articles without title/URL
-                return article.title && article.url;
+                // Filter out articles without title/URL/image
+                return article.title &&
+                       article.url &&
+                       article.image &&
+                       this.hasValidImage(article.image);
             })
             .map(article => {
                 // Clean content - remove [+chars] indicators
@@ -334,11 +345,11 @@ class NewsAPI {
         return 'general';
     }
 
-    // Validate and return image URL or placeholder
+    // Validate and return image URL (returns null if invalid - no placeholders)
     validateImage(imageUrl) {
         // Check if image URL exists and is valid
         if (!imageUrl || imageUrl === 'null' || imageUrl === 'undefined') {
-            return this.getPlaceholderImage();
+            return null;
         }
 
         // Check if it's a valid URL
@@ -346,11 +357,23 @@ class NewsAPI {
             const url = new URL(imageUrl);
             // Check if it's a proper image URL
             if (url.protocol !== 'http:' && url.protocol !== 'https:') {
-                return this.getPlaceholderImage();
+                return null;
             }
             return imageUrl;
         } catch (e) {
-            return this.getPlaceholderImage();
+            return null;
+        }
+    }
+
+    // Check if image URL is valid and real (not placeholder)
+    hasValidImage(imageUrl) {
+        if (!imageUrl) return false;
+        if (imageUrl.startsWith('data:image/svg+xml')) return false; // No placeholder images
+        try {
+            const url = new URL(imageUrl);
+            return url.protocol === 'http:' || url.protocol === 'https:';
+        } catch (e) {
+            return false;
         }
     }
 
