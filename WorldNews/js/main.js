@@ -18,6 +18,17 @@ class WorldNewsApp {
 
     // Initialize application
     async init() {
+        // Get initial category and language from router
+        if (window.router) {
+            this.currentCategory = router.getCategory();
+            const language = router.getLanguage();
+
+            // Set language before loading news
+            if (window.i18n) {
+                i18n.setLanguage(language);
+            }
+        }
+
         this.setupEventListeners();
         this.startAutoRefresh();
         await this.loadInitialNews();
@@ -26,13 +37,21 @@ class WorldNewsApp {
 
     // Setup event listeners
     setupEventListeners() {
-        // Navigation category clicks
+        // Navigation category clicks - use router for URL navigation
         document.querySelectorAll('.main-nav a[data-category]').forEach(link => {
             link.addEventListener('click', (e) => {
                 e.preventDefault();
                 const category = e.target.getAttribute('data-category');
-                this.changeCategory(category);
-                this.updateActiveNavLink(e.target);
+
+                // Use router to navigate (updates URL and loads content)
+                if (window.router) {
+                    const currentLang = window.i18n ? i18n.getCurrentLanguage() : 'en';
+                    router.navigate(category, currentLang);
+                } else {
+                    // Fallback if router not available
+                    this.changeCategory(category);
+                    this.updateActiveNavLink(e.target);
+                }
             });
         });
 
