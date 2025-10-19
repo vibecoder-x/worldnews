@@ -61,13 +61,13 @@ class RSSFeedManager {
                            item.querySelector('media\\:content, content')?.getAttribute('url') ||
                            this.extractImageFromContent(description);
 
-                // Skip articles without valid images
-                if (!image || !image.startsWith('http')) {
-                    return; // Skip this article
-                }
-
                 // Extract category
                 const category = item.querySelector('category')?.textContent || 'general';
+
+                // Use placeholder if no image found
+                if (!image || !image.startsWith('http')) {
+                    image = newsAPI.getPlaceholderImage(category);
+                }
 
                 articles.push({
                     id: newsAPI.generateId(link),
@@ -105,12 +105,12 @@ class RSSFeedManager {
                 let image = entry.querySelector('media\\:thumbnail, thumbnail')?.getAttribute('url') ||
                            this.extractImageFromContent(summary);
 
-                // Skip articles without valid images
-                if (!image || !image.startsWith('http')) {
-                    return; // Skip this article
-                }
-
                 const category = entry.querySelector('category')?.getAttribute('term') || 'general';
+
+                // Use placeholder if no image found
+                if (!image || !image.startsWith('http')) {
+                    image = newsAPI.getPlaceholderImage(category);
+                }
 
                 articles.push({
                     id: newsAPI.generateId(link),
