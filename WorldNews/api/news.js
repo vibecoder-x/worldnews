@@ -69,7 +69,7 @@ module.exports = async (req, res) => {
                     pageSize,
                     page,
                     sortBy: 'publishedAt',
-                    from: new Date(Date.now() - 24 * 60 * 60 * 1000).toISOString() // Last 24 hours
+                    from: new Date(Date.now() - 7 * 24 * 60 * 60 * 1000).toISOString() // Last 7 days
                 });
 
                 url = `${NEWS_APIS.newsapi.endpoint}/everything?${params}`;

@@ -185,13 +185,10 @@ class NewsAPI {
     normalizeNewsAPIData(articles) {
         return articles
             .filter(article => {
-                // Filter out: removed articles, no title, no URL, no image
+                // Only filter out removed articles, keep those with/without images
                 return article.title &&
                        article.title !== '[Removed]' &&
-                       article.url &&
-                       article.urlToImage &&
-                       article.urlToImage !== 'null' &&
-                       article.urlToImage.startsWith('http');
+                       article.url;
             })
             .map(article => {
                 // Clean content - remove [+chars] indicators
@@ -219,12 +216,8 @@ class NewsAPI {
     normalizeGNewsData(articles) {
         return articles
             .filter(article => {
-                // Filter out: no title, no URL, no image
-                return article.title &&
-                       article.url &&
-                       article.image &&
-                       article.image !== 'null' &&
-                       article.image.startsWith('http');
+                // Only filter out articles without title/URL
+                return article.title && article.url;
             })
             .map(article => {
                 // Clean content - remove [+chars] indicators
@@ -252,13 +245,8 @@ class NewsAPI {
     normalizeCurrentsAPIData(articles) {
         return articles
             .filter(article => {
-                // Filter out: no title, no URL, no image
-                return article.title &&
-                       article.url &&
-                       article.image &&
-                       article.image !== 'null' &&
-                       article.image !== 'None' &&
-                       article.image.startsWith('http');
+                // Only filter out articles without title/URL
+                return article.title && article.url;
             })
             .map(article => {
                 // Clean content - remove [+chars] indicators
